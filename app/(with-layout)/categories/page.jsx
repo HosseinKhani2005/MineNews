@@ -69,7 +69,7 @@ const categories = [
     color: "text-pink-400",
     bg: "bg-pink-100 dark:bg-pink-900/30",
     description: "فعالیت‌ها و اخبار جامعه‌ی ماینکرفت",
-    count: 9,
+    count: 0,
   },
 ];
 

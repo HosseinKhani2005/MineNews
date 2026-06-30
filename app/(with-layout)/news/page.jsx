@@ -1,26 +1,28 @@
 // app/news/page.jsx
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { 
-  Search, 
-  Filter, 
-  Calendar, 
-  ChevronLeft, 
+import {
+  Search,
+  Filter,
+  Calendar,
+  ChevronLeft,
   ChevronRight,
   Star,
   TrendingUp,
   Clock,
-  Tag
+  Tag,
 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 // 📌 دیتای استاتیک اخبار (دست‌ساز)
 const allNews = [
   {
     id: 1,
     title: "آپدیت 1.21 منتشر شد!",
-    description: "ویژگی‌های جدید شامل بلاک‌های تازه، موجودات جدید و ماجراجویی‌های هیجان‌انگیز...",
+    description:
+      "ویژگی‌های جدید شامل بلاک‌های تازه، موجودات جدید و ماجراجویی‌های هیجان‌انگیز...",
     category: "آپدیت",
     icon: "🆕",
     date: "۱۴۰۳/۰۴/۰۵",
@@ -32,7 +34,8 @@ const allNews = [
   {
     id: 2,
     title: "بهترین مودهای سال ۲۰۲۵",
-    description: "معرفی ۱۰ مود برتر که تجربه‌ی بازی رو متحول می‌کنن و قابلیت‌های جدیدی اضافه می‌کنن...",
+    description:
+      "معرفی ۱۰ مود برتر که تجربه‌ی بازی رو متحول می‌کنن و قابلیت‌های جدیدی اضافه می‌کنن...",
     category: "مود",
     icon: "⚡",
     date: "۱۴۰۳/۰۴/۰۳",
@@ -44,7 +47,8 @@ const allNews = [
   {
     id: 3,
     title: "رویداد بزرگ ماینکرفت کاپ",
-    description: "مسابقات ساخت و ساز با جایزه‌ی نقدی ۱۰۰ میلیونی و حضور شما! ثبت‌نام از امروز شروع شد...",
+    description:
+      "مسابقات ساخت و ساز با جایزه‌ی نقدی ۱۰۰ میلیونی و حضور شما! ثبت‌نام از امروز شروع شد...",
     category: "رویداد",
     icon: "🏆",
     date: "۱۴۰۳/۰۴/۰۱",
@@ -56,7 +60,8 @@ const allNews = [
   {
     id: 4,
     title: "نسل جدید ماینکرفت معرفی شد",
-    description: "گرافیک بهبود یافته، دنیای بزرگ‌تر و قابلیت‌های جدید که تجربه‌ی بازی رو متحول می‌کنه...",
+    description:
+      "گرافیک بهبود یافته، دنیای بزرگ‌تر و قابلیت‌های جدید که تجربه‌ی بازی رو متحول می‌کنه...",
     category: "اخبار",
     icon: "📢",
     date: "۱۴۰۳/۰۳/۲۸",
@@ -68,7 +73,8 @@ const allNews = [
   {
     id: 5,
     title: "آموزش ساخت ماشین‌های رداستون",
-    description: "از صفر تا صد، ماشین‌های پیچیده با رداستون رو یاد بگیر و در بازی بدرخش...",
+    description:
+      "از صفر تا صد، ماشین‌های پیچیده با رداستون رو یاد بگیر و در بازی بدرخش...",
     category: "آموزش",
     icon: "🔴",
     date: "۱۴۰۳/۰۳/۲۵",
@@ -80,7 +86,8 @@ const allNews = [
   {
     id: 6,
     title: "نسخه‌ی موبایل آپدیت شد",
-    description: "بهبود عملکرد، گرافیک بهتر، رفع باگ‌های فراوان و اضافه شدن حالت چندنفره...",
+    description:
+      "بهبود عملکرد، گرافیک بهتر، رفع باگ‌های فراوان و اضافه شدن حالت چندنفره...",
     category: "آپدیت",
     icon: "📱",
     date: "۱۴۰۳/۰۳/۲۲",
@@ -92,7 +99,8 @@ const allNews = [
   {
     id: 7,
     title: "معرفی بلاک‌های جدید در آپدیت 1.22",
-    description: "بلاک‌های جدیدی که بازی رو به سطح بالاتری می‌برن و امکانات بیشتری به بازیکنان میدن...",
+    description:
+      "بلاک‌های جدیدی که بازی رو به سطح بالاتری می‌برن و امکانات بیشتری به بازیکنان میدن...",
     category: "آپدیت",
     icon: "🪨",
     date: "۱۴۰۳/۰۳/۲۰",
@@ -104,7 +112,8 @@ const allNews = [
   {
     id: 8,
     title: "مسابقه‌ی بزرگ ساخت و ساز",
-    description: "بهترین سازنده‌ها رو در این مسابقه پیدا می‌کنیم. جوایز ویژه‌ای در انتظار شماست...",
+    description:
+      "بهترین سازنده‌ها رو در این مسابقه پیدا می‌کنیم. جوایز ویژه‌ای در انتظار شماست...",
     category: "رویداد",
     icon: "🎨",
     date: "۱۴۰۳/۰۳/۱۸",
@@ -116,7 +125,8 @@ const allNews = [
   {
     id: 9,
     title: "تکنیک‌های پیشرفته رداستون",
-    description: "با این تکنیک‌ها، ماشین‌های پیچیده‌تری در ماینکرفت بساز و از همه جلو بزن...",
+    description:
+      "با این تکنیک‌ها، ماشین‌های پیچیده‌تری در ماینکرفت بساز و از همه جلو بزن...",
     category: "آموزش",
     icon: "🔧",
     date: "۱۴۰۳/۰۳/۱۵",
@@ -129,20 +139,36 @@ const allNews = [
 
 // دسته‌بندی‌ها
 const categories = ["همه", "آپدیت", "مود", "رویداد", "اخبار", "آموزش"];
+const English_Categories = [
+  "all",
+  "updates",
+  "mods",
+  "events",
+  "news",
+  "tutorials",
+];
 
 export default function NewsPage() {
+  const searchParams = useSearchParams();
+  const category = searchParams.get("category");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("همه");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
+  useEffect(() => {
+    English_Categories.includes(category)
+      ? setSelectedCategory(categories[English_Categories.indexOf(category)])
+      : setSelectedCategory("null");
+  },[]);
 
   // فیلتر اخبار بر اساس جستجو و دسته‌بندی
   const filteredNews = useMemo(() => {
     return allNews.filter((news) => {
-      const matchesSearch = news.title.includes(searchTerm) || 
-                           news.description.includes(searchTerm);
-      const matchesCategory = selectedCategory === "همه" || 
-                             news.category === selectedCategory;
+      const matchesSearch =
+        news.title.includes(searchTerm) ||
+        news.description.includes(searchTerm);
+      const matchesCategory =
+        selectedCategory === "همه" || news.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
   }, [searchTerm, selectedCategory]);
@@ -150,7 +176,10 @@ export default function NewsPage() {
   // صفحه‌بندی
   const totalPages = Math.ceil(filteredNews.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedNews = filteredNews.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedNews = filteredNews.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
 
   // تغییر صفحه
   const goToPage = (page) => {
@@ -163,7 +192,6 @@ export default function NewsPage() {
   return (
     <div className="transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        
         {/* هدر صفحه */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -300,7 +328,10 @@ export default function NewsPage() {
 
         {/* صفحه‌بندی */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-2 mt-10" dir="ltr">
+          <div
+            className="flex items-center justify-center gap-2 mt-10"
+            dir="ltr"
+          >
             <button
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}

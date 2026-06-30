@@ -17,6 +17,7 @@ import {
 import CountUp from "@/func/Countup";
 
 export default function AboutPage() {
+  
   const stats = [
     { label: "اخبار منتشر شده", value: 124, icon: BookOpen },
     { label: "کاربران عضو", value: 3200, icon: Users },
