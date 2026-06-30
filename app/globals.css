@@ -21,14 +21,3 @@
 body {
 	font-family: 'ClassicEnglishFont','PersianFont', sans-serif;
 }
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("/images/background_image.avif");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: .2;
-  z-index: -1;
-}
