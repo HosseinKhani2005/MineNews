@@ -119,6 +119,7 @@ export default function HomePage() {
 
   return (
     <div className="">
+      {/* ========== بخش هیرو (همیشه با animate بماند) ========== */}
       <section className="relative overflow-hidden py-16 md:py-24">
         <div className="relative max-w-7xl mx-auto px-4 text-center">
           <motion.div
@@ -163,15 +164,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 📌 آمار */}
-      <section className="max-w-7xl mx-auto px-4 mt-12">
+      {/* ========== بخش آمار (با whileInView) ========== */}
+      <motion.section
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
+        className="max-w-7xl mx-auto px-4 mt-12"
+      >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
+              viewport={{ once: true }}
               className="bg-white dark:bg-gray-900 rounded-2xl p-6 text-center shadow-md border border-gray-200 dark:border-gray-800"
             >
               <stat.icon className="w-8 h-8 mx-auto text-green-600 dark:text-green-400 mb-2" />
@@ -192,10 +200,16 @@ export default function HomePage() {
             </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      {/* 📌 اخبار */}
-      <section className="max-w-7xl mx-auto px-4 mt-16">
+      {/* ========== بخش اخبار (با whileInView) ========== */}
+      <motion.section
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
+        className="max-w-7xl mx-auto px-4 mt-16"
+      >
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
@@ -220,8 +234,9 @@ export default function HomePage() {
             <motion.div
               key={item.id}
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
+              viewport={{ once: true }}
               whileHover={{ y: -4 }}
               className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-md border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all duration-200 cursor-pointer"
               onClick={() => router.push(`/news/${item.id}`)}
@@ -248,10 +263,16 @@ export default function HomePage() {
             </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      {/* 📌 ویژگی‌ها */}
-      <section className="max-w-7xl mx-auto px-4 mt-16">
+      {/* ========== بخش ویژگی‌ها (با whileInView) ========== */}
+      <motion.section
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
+        className="max-w-7xl mx-auto px-4 mt-16"
+      >
         <div className="text-center mb-10">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
             چرا{" "}
@@ -268,8 +289,9 @@ export default function HomePage() {
             <motion.div
               key={feature.title}
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
+              viewport={{ once: true }}
               className="bg-white dark:bg-gray-900 rounded-2xl p-6 text-center shadow-md border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all duration-200"
             >
               <feature.icon
@@ -284,10 +306,16 @@ export default function HomePage() {
             </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      {/* 📌 CTA */}
-      <section className="max-w-7xl mx-auto px-4 mt-16">
+      {/* ========== بخش CTA (با whileInView) ========== */}
+      <motion.section
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
+        className="max-w-7xl mx-auto px-4 mt-16"
+      >
         <div className="bg-linear-to-r from-green-600 to-emerald-600 dark:from-green-700 dark:to-emerald-700 rounded-3xl p-8 md:p-12 text-center text-white shadow-xl">
           <h2 className="text-2xl md:text-3xl font-bold mb-3">
             به جمع ماینکرفت‌بازها بپیوند!
@@ -306,7 +334,7 @@ export default function HomePage() {
             ثبت‌نام رایگان
           </motion.button>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }

@@ -56,7 +56,8 @@ export default function AboutPage() {
   return (
     <div className="transition-colors duration-300 py-8 md:py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* هدر */}
+        
+        {/* ========== هدر (با animate بماند) ========== */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -72,11 +73,12 @@ export default function AboutPage() {
           </p>
         </motion.div>
 
-        {/* داستان ما */}
+        {/* ========== داستان ما (با whileInView) ========== */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
+          viewport={{ once: true }}
           className="bg-white dark:bg-gray-900 rounded-2xl p-6 md:p-8 shadow-md border border-gray-200 dark:border-gray-800 mb-8"
         >
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
@@ -94,16 +96,21 @@ export default function AboutPage() {
           </p>
         </motion.div>
 
-        {/* آمار */}
+        {/* ========== آمار (با whileInView) ========== */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
+          viewport={{ once: true }}
           className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
         >
           {stats.map((stat, index) => (
-            <div
+            <motion.div
               key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              viewport={{ once: true }}
               className="bg-white dark:bg-gray-900 rounded-2xl p-6 text-center shadow-md border border-gray-200 dark:border-gray-800"
             >
               <stat.icon className="w-8 h-8 mx-auto text-green-600 dark:text-green-400 mb-2" />
@@ -121,15 +128,16 @@ export default function AboutPage() {
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 {stat.label}
               </p>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
 
-        {/* ویژگی‌ها */}
+        {/* ========== ویژگی‌ها (با whileInView) ========== */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
           className="bg-white dark:bg-gray-900 rounded-2xl p-6 md:p-8 shadow-md border border-gray-200 dark:border-gray-800 mb-8"
         >
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 text-center">
@@ -156,11 +164,12 @@ export default function AboutPage() {
           </div>
         </motion.div>
 
-        {/* تیم ما */}
+        {/* ========== تیم ما (با whileInView) ========== */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
+          viewport={{ once: true }}
           className="bg-white dark:bg-gray-900 rounded-2xl p-6 md:p-8 shadow-md border border-gray-200 dark:border-gray-800 mb-8"
         >
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
@@ -177,11 +186,12 @@ export default function AboutPage() {
           </p>
         </motion.div>
 
-        {/* CTA */}
+        {/* ========== CTA (با whileInView) ========== */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
+          viewport={{ once: true }}
           className="bg-linear-to-r from-green-600 to-emerald-600 dark:from-green-700 dark:to-emerald-700 rounded-2xl p-8 text-center text-white"
         >
           <h2 className="text-2xl font-bold mb-3">به جمع ما بپیوند!</h2>

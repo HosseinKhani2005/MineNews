@@ -190,7 +190,7 @@ export default function NewsContent() {
   return (
     <div className="transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        {/* هدر صفحه */}
+        {/* ========== هدر صفحه (با animate بماند) ========== */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -206,11 +206,12 @@ export default function NewsContent() {
           </p>
         </motion.div>
 
-        {/* نوار جستجو و فیلتر */}
+        {/* ========== نوار جستجو و فیلتر (با whileInView) ========== */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
+          viewport={{ once: true }}
           className="bg-white dark:bg-gray-900 rounded-2xl p-4 shadow-md border border-gray-200 dark:border-gray-800 mb-8"
         >
           <div className="flex flex-col md:flex-row gap-4">
@@ -252,24 +253,31 @@ export default function NewsContent() {
           </div>
         </motion.div>
 
-        {/* تعداد اخبار */}
-        <div className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+        {/* ========== تعداد اخبار (با whileInView) ========== */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          viewport={{ once: true }}
+          className="text-sm text-gray-500 dark:text-gray-400 mb-6"
+        >
           {filteredNews.length} خبر پیدا شد
-        </div>
+        </motion.div>
 
-        {/* لیست اخبار */}
+        {/* ========== لیست اخبار (با whileInView) ========== */}
         {paginatedNews.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {paginatedNews.map((news, index) => (
               <motion.div
                 key={news.id}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
+                viewport={{ once: true }}
                 whileHover={{ y: -4 }}
                 className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-md border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all duration-200"
               >
-                {/* تصویر (جاوا‌اسکریپت) */}
+                {/* تصویر */}
                 <div className="w-full h-48 bg-linear-to-br from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 flex items-center justify-center text-4xl">
                   {news.icon}
                 </div>
@@ -317,16 +325,26 @@ export default function NewsContent() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-16">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            viewport={{ once: true }}
+            className="text-center py-16"
+          >
             <p className="text-gray-500 dark:text-gray-400 text-lg">
               😕 خبری با این دسته‌بندی یا جستجو پیدا نشد
             </p>
-          </div>
+          </motion.div>
         )}
 
-        {/* صفحه‌بندی */}
+        {/* ========== صفحه‌بندی (با whileInView) ========== */}
         {totalPages > 1 && (
-          <div
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
             className="flex items-center justify-center gap-2 mt-10"
             dir="ltr"
           >
@@ -359,7 +377,7 @@ export default function NewsContent() {
             >
               <ChevronRight className="w-5 h-5" />
             </button>
-          </div>
+          </motion.div>
         )}
       </div>
     </div>

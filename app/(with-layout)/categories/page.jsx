@@ -1,186 +1,384 @@
-// app/categories/page.jsx
+// app/news/NewsContent.jsx
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { 
-  Tag, 
-  Newspaper, 
-  Zap, 
-  Trophy, 
-  BookOpen, 
-  Sparkles,
-  ChevronRight,
+import {
+  Search,
+  Filter,
   Calendar,
-  Users,
-  Star
+  ChevronLeft,
+  ChevronRight,
+  Star,
+  TrendingUp,
+  Clock,
 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
-const categories = [
+// 📌 دیتای استاتیک اخبار (دست‌ساز)
+const allNews = [
   {
-    id: "updates",
-    name: "آپدیت‌ها",
-    icon: Zap,
-    color: "text-yellow-400",
-    bg: "bg-yellow-100 dark:bg-yellow-900/30",
-    description: "آخرین تغییرات و به‌روزرسانی‌های بازی",
-    count: 34,
+    id: 1,
+    title: "آپدیت 1.21 منتشر شد!",
+    description:
+      "ویژگی‌های جدید شامل بلاک‌های تازه، موجودات جدید و ماجراجویی‌های هیجان‌انگیز...",
+    category: "آپدیت",
+    icon: "🆕",
+    date: "۱۴۰۳/۰۴/۰۵",
+    image: "/images/news1.jpg",
+    author: "علی رضایی",
+    readTime: "۳ دقیقه",
+    isFeatured: true,
   },
   {
-    id: "mods",
-    name: "مودها",
-    icon: Sparkles,
-    color: "text-purple-400",
-    bg: "bg-purple-100 dark:bg-purple-900/30",
-    description: "معرفی و بررسی بهترین مودهای ماینکرفت",
-    count: 28,
+    id: 2,
+    title: "بهترین مودهای سال ۲۰۲۵",
+    description:
+      "معرفی ۱۰ مود برتر که تجربه‌ی بازی رو متحول می‌کنن و قابلیت‌های جدیدی اضافه می‌کنن...",
+    category: "مود",
+    icon: "⚡",
+    date: "۱۴۰۳/۰۴/۰۳",
+    image: "/images/news2.jpg",
+    author: "سارا محمدی",
+    readTime: "۵ دقیقه",
+    isFeatured: false,
   },
   {
-    id: "events",
-    name: "رویدادها",
-    icon: Trophy,
-    color: "text-red-400",
-    bg: "bg-red-100 dark:bg-red-900/30",
-    description: "مسابقات، جشنواره‌ها و رویدادهای ویژه",
-    count: 18,
+    id: 3,
+    title: "رویداد بزرگ ماینکرفت کاپ",
+    description:
+      "مسابقات ساخت و ساز با جایزه‌ی نقدی ۱۰۰ میلیونی و حضور شما! ثبت‌نام از امروز شروع شد...",
+    category: "رویداد",
+    icon: "🏆",
+    date: "۱۴۰۳/۰۴/۰۱",
+    image: "/images/news3.jpg",
+    author: "محمد کریمی",
+    readTime: "۲ دقیقه",
+    isFeatured: true,
   },
   {
-    id: "news",
-    name: "اخبار",
-    icon: Newspaper,
-    color: "text-blue-400",
-    bg: "bg-blue-100 dark:bg-blue-900/30",
-    description: "جدیدترین اخبار دنیای ماینکرفت",
-    count: 42,
+    id: 4,
+    title: "نسل جدید ماینکرفت معرفی شد",
+    description:
+      "گرافیک بهبود یافته، دنیای بزرگ‌تر و قابلیت‌های جدید که تجربه‌ی بازی رو متحول می‌کنه...",
+    category: "اخبار",
+    icon: "📢",
+    date: "۱۴۰۳/۰۳/۲۸",
+    image: "/images/news4.jpg",
+    author: "ندا احمدی",
+    readTime: "۴ دقیقه",
+    isFeatured: false,
   },
   {
-    id: "tutorials",
-    name: "آموزش‌ها",
-    icon: BookOpen,
-    color: "text-green-400",
-    bg: "bg-green-100 dark:bg-green-900/30",
-    description: "آموزش‌های گام‌به‌گام ساخت و ساز و رداستون",
-    count: 15,
+    id: 5,
+    title: "آموزش ساخت ماشین‌های رداستون",
+    description:
+      "از صفر تا صد، ماشین‌های پیچیده با رداستون رو یاد بگیر و در بازی بدرخش...",
+    category: "آموزش",
+    icon: "🔴",
+    date: "۱۴۰۳/۰۳/۲۵",
+    image: "/images/news5.jpg",
+    author: "حسین نوری",
+    readTime: "۷ دقیقه",
+    isFeatured: false,
   },
   {
-    id: "community",
-    name: "جامعه",
-    icon: Users,
-    color: "text-pink-400",
-    bg: "bg-pink-100 dark:bg-pink-900/30",
-    description: "فعالیت‌ها و اخبار جامعه‌ی ماینکرفت",
-    count: 0,
+    id: 6,
+    title: "نسخه‌ی موبایل آپدیت شد",
+    description:
+      "بهبود عملکرد، گرافیک بهتر، رفع باگ‌های فراوان و اضافه شدن حالت چندنفره...",
+    category: "آپدیت",
+    icon: "📱",
+    date: "۱۴۰۳/۰۳/۲۲",
+    image: "/images/news6.jpg",
+    author: "زهرا حسینی",
+    readTime: "۳ دقیقه",
+    isFeatured: false,
+  },
+  {
+    id: 7,
+    title: "معرفی بلاک‌های جدید در آپدیت 1.22",
+    description:
+      "بلاک‌های جدیدی که بازی رو به سطح بالاتری می‌برن و امکانات بیشتری به بازیکنان میدن...",
+    category: "آپدیت",
+    icon: "🪨",
+    date: "۱۴۰۳/۰۳/۲۰",
+    image: "/images/news7.jpg",
+    author: "رضا گلستانی",
+    readTime: "۴ دقیقه",
+    isFeatured: false,
+  },
+  {
+    id: 8,
+    title: "مسابقه‌ی بزرگ ساخت و ساز",
+    description:
+      "بهترین سازنده‌ها رو در این مسابقه پیدا می‌کنیم. جوایز ویژه‌ای در انتظار شماست...",
+    category: "رویداد",
+    icon: "🎨",
+    date: "۱۴۰۳/۰۳/۱۸",
+    image: "/images/news8.jpg",
+    author: "مریم رضایی",
+    readTime: "۲ دقیقه",
+    isFeatured: false,
+  },
+  {
+    id: 9,
+    title: "تکنیک‌های پیشرفته رداستون",
+    description:
+      "با این تکنیک‌ها، ماشین‌های پیچیده‌تری در ماینکرفت بساز و از همه جلو بزن...",
+    category: "آموزش",
+    icon: "🔧",
+    date: "۱۴۰۳/۰۳/۱۵",
+    image: "/images/news9.jpg",
+    author: "پیمان عسکری",
+    readTime: "۶ دقیقه",
+    isFeatured: false,
   },
 ];
 
-const recentNews = [
-  { id: 1, title: "آپدیت 1.21 منتشر شد!", category: "آپدیت‌ها", date: "۱۴۰۳/۰۴/۰۵" },
-  { id: 2, title: "بهترین مودهای سال ۲۰۲۵", category: "مودها", date: "۱۴۰۳/۰۴/۰۳" },
-  { id: 3, title: "رویداد بزرگ ماینکرفت کاپ", category: "رویدادها", date: "۱۴۰۳/۰۴/۰۱" },
-];
+// دسته‌بندی‌ها
+const categories = ["همه", "آپدیت", "مود", "رویداد", "اخبار", "آموزش"];
+const English_Categories = ["all", "updates", "mods", "events", "news", "tutorials"];
 
-export default function CategoriesPage() {
-  const [hoveredCategory, setHoveredCategory] = useState(null);
+export default function NewsContent() {
+  const searchParams = useSearchParams();
+  const category = searchParams.get("category");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("همه");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  // تنظیم دسته‌بندی از URL
+  useEffect(() => {
+    if (category) {
+      const index = English_Categories.indexOf(category);
+      if (index !== -1) {
+        setSelectedCategory(categories[index]);
+      }
+    }
+  }, [category]);
+
+  // فیلتر اخبار بر اساس جستجو و دسته‌بندی
+  const filteredNews = useMemo(() => {
+    return allNews.filter((news) => {
+      const matchesSearch =
+        news.title.includes(searchTerm) ||
+        news.description.includes(searchTerm);
+      const matchesCategory =
+        selectedCategory === "همه" || news.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [searchTerm, selectedCategory]);
+
+  // صفحه‌بندی
+  const totalPages = Math.ceil(filteredNews.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedNews = filteredNews.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
+
+  // تغییر صفحه
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
-    <div className="transition-colors duration-300 py-8 md:py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* هدر */}
+    <div className="transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        {/* ========== هدر صفحه (با animate بماند) ========== */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="mb-8"
         >
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white flex items-center justify-center gap-3">
-            <Tag className="w-8 h-8 text-green-600 dark:text-green-400" />
-            دسته‌بندی‌ها
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+            <TrendingUp className="w-8 h-8 text-green-600 dark:text-green-400" />
+            اخبار ماینکرفت
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-3 max-w-2xl mx-auto">
-            اخبار و محتواها رو بر اساس دسته‌بندی مورد علاقه‌ات مرور کن
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
+            آخرین اخبار، آپدیت‌ها و رویدادهای دنیای ماینکرفت رو دنبال کن
           </p>
         </motion.div>
 
-        {/* لیست دسته‌بندی‌ها */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {categories.map((category, index) => (
-            <motion.div
-              key={category.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              onMouseEnter={() => setHoveredCategory(category.id)}
-              onMouseLeave={() => setHoveredCategory(null)}
-              className={`bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-md border transition-all duration-300 cursor-pointer hover:shadow-lg ${
-                hoveredCategory === category.id
-                  ? "border-green-500 dark:border-green-400 scale-[1.02]"
-                  : "border-gray-200 dark:border-gray-800"
-              }`}
-            >
-              <div className="flex items-start justify-between">
-                <div className={`p-3 rounded-xl ${category.bg} ${category.color}`}>
-                  <category.icon className="w-6 h-6" />
-                </div>
-                <span className="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-full">
-                  {category.count} خبر
-                </span>
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mt-4">
-                {category.name}
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                {category.description}
-              </p>
-              <Link
-                href={`/news?category=${category.id}`}
-                className="inline-flex items-center gap-1 text-green-600 dark:text-green-400 hover:underline text-sm font-medium mt-4"
-              >
-                مشاهده اخبار
-                <ChevronRight className="w-4 h-4" />
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* اخبار اخیر */}
+        {/* ========== نوار جستجو و فیلتر (با whileInView) ========== */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="bg-white dark:bg-gray-900 rounded-2xl p-6 md:p-8 shadow-md border border-gray-200 dark:border-gray-800"
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          viewport={{ once: true }}
+          className="bg-white dark:bg-gray-900 rounded-2xl p-4 shadow-md border border-gray-200 dark:border-gray-800 mb-8"
         >
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-            <Calendar className="w-6 h-6 text-green-600 dark:text-green-400" />
-            اخبار اخیر
-          </h2>
-          <div className="space-y-4">
-            {recentNews.map((news, index) => (
-              <div
-                key={news.id}
-                className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 ${
-                  index < recentNews.length - 1 ? "border-b border-gray-100 dark:border-gray-800" : ""
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Star className="w-4 h-4 text-gray-300 dark:text-gray-600" />
-                  <Link
-                    href={`/news/${news.id}`}
-                    className="text-gray-800 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition font-medium"
-                  >
-                    {news.title}
-                  </Link>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
-                  <span className="px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800">
-                    {news.category}
-                  </span>
-                  <span>{news.date}</span>
-                </div>
-              </div>
-            ))}
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* جستجو */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="جستجوی اخبار..."
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all outline-none"
+              />
+            </div>
+
+            {/* فیلتر دسته‌بندی */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0">
+              <Filter className="w-5 h-5 text-gray-400 shrink-0" />
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setSelectedCategory(cat);
+                    setCurrentPage(1);
+                  }}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${
+                    selectedCategory === cat
+                      ? "bg-green-600 text-white shadow-sm shadow-green-500/20"
+                      : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
         </motion.div>
+
+        {/* ========== تعداد اخبار (با whileInView) ========== */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          viewport={{ once: true }}
+          className="text-sm text-gray-500 dark:text-gray-400 mb-6"
+        >
+          {filteredNews.length} خبر پیدا شد
+        </motion.div>
+
+        {/* ========== لیست اخبار (با whileInView) ========== */}
+        {paginatedNews.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {paginatedNews.map((news, index) => (
+              <motion.div
+                key={news.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -4 }}
+                className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-md border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all duration-200"
+              >
+                {/* تصویر */}
+                <div className="w-full h-48 bg-linear-to-br from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 flex items-center justify-center text-4xl">
+                  {news.icon}
+                </div>
+
+                <div className="p-5">
+                  {/* برچسب‌ها */}
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
+                      {news.category}
+                    </span>
+                    {news.isFeatured && (
+                      <span className="text-xs px-3 py-1 rounded-full bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-400 flex items-center gap-1">
+                        <Star className="w-3 h-3" />
+                        ویژه
+                      </span>
+                    )}
+                  </div>
+
+                  <Link href={`/news/${news.id}`}>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition line-clamp-1">
+                      {news.title}
+                    </h3>
+                  </Link>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mt-2 line-clamp-2">
+                    {news.description}
+                  </p>
+
+                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 text-xs text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center gap-3">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        {news.date}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {news.readTime}
+                      </span>
+                    </div>
+                    <span className="text-green-600 dark:text-green-400 hover:underline">
+                      {news.author}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            viewport={{ once: true }}
+            className="text-center py-16"
+          >
+            <p className="text-gray-500 dark:text-gray-400 text-lg">
+              😕 خبری با این دسته‌بندی یا جستجو پیدا نشد
+            </p>
+          </motion.div>
+        )}
+
+        {/* ========== صفحه‌بندی (با whileInView) ========== */}
+        {totalPages > 1 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="flex items-center justify-center gap-2 mt-10"
+            dir="ltr"
+          >
+            <button
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="p-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => goToPage(page)}
+                className={`w-9 h-9 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  currentPage === page
+                    ? "bg-green-600 text-white shadow-sm shadow-green-500/20"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+
+            <button
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="p-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </motion.div>
+        )}
       </div>
     </div>
   );
