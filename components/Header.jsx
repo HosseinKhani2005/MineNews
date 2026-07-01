@@ -58,10 +58,10 @@ export default function Header() {
               دسته‌بندی
             </Link>
             <Link
-              href="/about"
+              href="/shop"
               className="hover:text-green-600 dark:hover:text-green-400 transition"
             >
-              درباره
+              فروشگاه
             </Link>
           </div>
 
@@ -141,13 +141,13 @@ export default function Header() {
               دسته‌بندی
             </Link>
             <Link
-              href="/about"
+              href="/shop"
               className="px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition"
               onClick={() => {
                 setIsMenuOpen(false);
               }}
             >
-              درباره
+              فروشگاه
             </Link>
             <div className="flex gap-3 mt-2 pt-2 border-t border-gray-200 dark:border-gray-800">
               <Link

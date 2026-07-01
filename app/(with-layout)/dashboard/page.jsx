@@ -18,7 +18,13 @@ import {
   LayoutGrid,
   MessageSquare,
   Play,
+  ShoppingCart,
+  Package,
+  Plus,
+  Minus,
+  CreditCard,
   Sparkles,
+  ShieldCheck,
   Star,
   TrendingUp,
   Users,
@@ -104,7 +110,44 @@ const tasks = [
   { label: "بررسی کامنت‌های جدید", done: false },
 ];
 
+const cartItems = [
+  {
+    name: "پک استارتر بقا",
+    description: "برای شروع سریع ماجراجویی",
+    price: 149000,
+    quantity: 1,
+    color: "from-emerald-500 to-lime-400",
+  },
+  {
+    name: "بسته الماس",
+    description: "تجهیزات سطح بالا",
+    price: 289000,
+    quantity: 2,
+    color: "from-sky-500 to-cyan-400",
+  },
+  {
+    name: "پک نبرد ندر",
+    description: "برای نبردهای سخت",
+    price: 219000,
+    quantity: 1,
+    color: "from-orange-500 to-rose-400",
+  },
+];
+
+const cartSummary = {
+  shipping: 45000,
+  discount: 50000,
+};
+
+const currency = new Intl.NumberFormat("fa-IR");
+
 export default function DashboardPage() {
+  const cartSubtotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
+  const cartTotal = cartSubtotal + cartSummary.shipping - cartSummary.discount;
+
   return (
     <div className="relative overflow-hidden pb-16 pt-8 md:pt-12">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.20),transparent_34%),radial-gradient(circle_at_top_left,rgba(59,130,246,0.16),transparent_26%),linear-gradient(to_bottom,rgba(255,255,255,0.96),transparent)] dark:bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.24),transparent_34%),radial-gradient(circle_at_top_left,rgba(59,130,246,0.16),transparent_26%),linear-gradient(to_bottom,rgba(2,6,23,0.96),transparent)]" />
@@ -297,6 +340,178 @@ export default function DashboardPage() {
               </div>
             </motion.div>
           ))}
+        </motion.div>
+      </section>
+
+      {/* ========== سبد خرید ========== */}
+      <section className="max-w-7xl mx-auto px-4 mt-10 md:mt-14">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]"
+        >
+          <div className="rounded-4xl border border-slate-200 bg-white/80 p-6 shadow-[0_25px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/80 md:p-8">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium text-emerald-700 dark:text-emerald-300">
+                  <ShoppingCart className="h-4 w-4" />
+                  سبد خرید
+                </div>
+                <h2 className="mt-4 text-2xl font-black text-slate-950 dark:text-white">
+                  آیتم‌های انتخاب‌شده برای خرید
+                </h2>
+                <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                  این بخش برای نمایش وضعیت خرید و جمع کل سبد در داشبورد اضافه
+                  شده است.
+                </p>
+              </div>
+              <div className="hidden sm:flex items-center gap-2 rounded-2xl bg-slate-100 px-4 py-3 text-sm font-medium text-slate-600 dark:bg-slate-900 dark:text-slate-300">
+                <Package className="h-4 w-4 text-emerald-500" />
+                {cartItems.length} آیتم
+              </div>
+            </div>
+
+            <div className="mt-6 space-y-4">
+              {cartItems.map((item) => (
+                <div
+                  key={item.name}
+                  className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/70 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div className="flex items-center gap-4 min-w-0">
+                    <div
+                      className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-linear-to-br ${item.color} text-white shadow-lg`}
+                    >
+                      <ShieldCheck className="h-6 w-6" />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="truncate text-base font-bold text-slate-950 dark:text-white">
+                        {item.name}
+                      </h3>
+                      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                        {item.description}
+                      </p>
+                      <p className="mt-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                        {currency.format(item.price)} تومان
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-3 sm:flex-col sm:items-end">
+                    <div className="flex items-center rounded-2xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-950">
+                      <button className="flex h-10 w-10 items-center justify-center text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
+                        <Minus className="h-4 w-4" />
+                      </button>
+                      <span className="min-w-10 text-center text-sm font-bold text-slate-900 dark:text-white">
+                        {item.quantity}
+                      </span>
+                      <button className="flex h-10 w-10 items-center justify-center text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
+                        <Plus className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+                      {currency.format(item.price * item.quantity)} تومان
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-4">
+            <div className="rounded-4xl border border-slate-200 bg-white/80 p-6 shadow-[0_25px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/80">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-bold text-slate-950 dark:text-white">
+                  خلاصه سفارش
+                </h3>
+                <CreditCard className="h-5 w-5 text-emerald-500" />
+              </div>
+
+              <div className="mt-5 space-y-3 text-sm">
+                <div className="flex items-center justify-between text-slate-600 dark:text-slate-400">
+                  <span>جمع کالاها</span>
+                  <span>{currency.format(cartSubtotal)} تومان</span>
+                </div>
+                <div className="flex items-center justify-between text-slate-600 dark:text-slate-400">
+                  <span>هزینه ارسال</span>
+                  <span>{currency.format(cartSummary.shipping)} تومان</span>
+                </div>
+                <div className="flex items-center justify-between text-slate-600 dark:text-slate-400">
+                  <span>تخفیف</span>
+                  <span className="text-emerald-600 dark:text-emerald-400">
+                    -{currency.format(cartSummary.discount)} تومان
+                  </span>
+                </div>
+                <div className="h-px bg-slate-200 dark:bg-slate-800" />
+                <div className="flex items-center justify-between text-base font-black text-slate-950 dark:text-white">
+                  <span>مبلغ نهایی</span>
+                  <span>{currency.format(cartTotal)} تومان</span>
+                </div>
+              </div>
+
+              <div className="mt-6 rounded-3xl bg-emerald-500/10 p-4 text-sm leading-7 text-emerald-700 dark:text-emerald-300">
+                <div className="flex items-center gap-2 font-semibold">
+                  <Sparkles className="h-4 w-4" />
+                  وضعیت خرید فعال است
+                </div>
+                <p className="mt-2">
+                  می‌توانی بعداً این بخش را به سبد خرید واقعی، API سفارش و
+                  پرداخت وصل کنی.
+                </p>
+              </div>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+                <Link
+                  href="/shop"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-800 dark:bg-emerald-500 dark:text-slate-950 dark:hover:bg-emerald-400"
+                >
+                  مشاهده فروشگاه
+                  <ArrowLeft className="h-4 w-4" />
+                </Link>
+                <Link
+                  href="/register"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-800 transition hover:-translate-y-0.5 hover:border-emerald-200 hover:text-emerald-700 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:hover:border-emerald-500/40 dark:hover:text-emerald-300"
+                >
+                  تکمیل خرید
+                  <CreditCard className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="rounded-4xl border border-slate-200 bg-white/80 p-6 shadow-[0_25px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/80">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-bold text-slate-950 dark:text-white">
+                  پیشنهادات مکمل
+                </h3>
+                <Sparkles className="h-5 w-5 text-emerald-500" />
+              </div>
+              <div className="mt-4 space-y-3">
+                {[
+                  { title: "بسته افسون و جادو", price: "249,000" },
+                  { title: "پک ساخت و ساز", price: "179,000" },
+                  { title: "کیف سلطنتی", price: "399,000" },
+                ].map((item) => (
+                  <div
+                    key={item.title}
+                    className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-800 dark:bg-slate-900/70"
+                  >
+                    <div>
+                      <p className="font-semibold text-slate-950 dark:text-white">
+                        {item.title}
+                      </p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">
+                        مناسب برای افزودن به سبد خرید
+                      </p>
+                    </div>
+                    <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">
+                      {item.price} تومان
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </motion.div>
       </section>
 
