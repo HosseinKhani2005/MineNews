@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
             fill
             sizes="90vh"
             priority
-            className="object-cover opacity-30 dark:opacity-50"
+            className="object-cover opacity-30"
           />
         </div>
         <Providers>
