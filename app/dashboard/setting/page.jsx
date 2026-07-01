@@ -55,7 +55,7 @@ export default function DashboardSettingPage() {
         <div className="grid gap-4 sm:gap-6 lg:grid-cols-[280px_1fr]">
           
           {/* ===== سایدبار پروفایل ===== */}
-          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-4 sm:p-6 shadow-sm lg:sticky lg:top-24 lg:h-fit order-2 lg:order-1">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-4 sm:p-6 shadow-sm lg:sticky lg:top-24 lg:h-fit order-1">
             <div className="text-center">
               <div className="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto">
                 <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-linear-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-3xl sm:text-4xl text-white font-bold shadow-lg">
@@ -90,7 +90,7 @@ export default function DashboardSettingPage() {
           </div>
 
           {/* ===== محتوای اصلی ===== */}
-          <div className="space-y-4 sm:space-y-6 order-1 lg:order-2">
+          <div className="space-y-4 sm:space-y-6 order-2">
             
             {/* اطلاعات شخصی */}
             <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-4 sm:p-6 shadow-sm">

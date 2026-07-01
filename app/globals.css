@@ -21,3 +21,9 @@
 body {
 	font-family: 'ClassicEnglishFont','PersianFont', sans-serif;
 }
+
+@media (max-width: 640px) {
+	html {
+		font-size: 77.5%;
+	}
+}

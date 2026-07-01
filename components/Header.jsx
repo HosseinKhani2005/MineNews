@@ -21,7 +21,7 @@ export default function Header() {
   return (
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300 sticky top-0 z-50 shadow-sm">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14 sm:h-16">
           {/* لوگو با عکس جدید */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <Image
@@ -29,9 +29,9 @@ export default function Header() {
               alt="MineNews Logo"
               width={48}
               height={48}
-              className="w-12 h-12 object-contain"
+              className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
             />
-            <span className="text-2xl font-bold">
+            <span className="text-lg sm:text-2xl font-bold leading-none">
               <span className="text-gray-900 dark:text-white">Mine</span>
               <span className="text-green-600 dark:text-green-400">News</span>
             </span>
@@ -66,7 +66,7 @@ export default function Header() {
           </div>
 
           {/* بخش راست */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
               href="/login"
               className="hidden sm:inline-block px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition"
@@ -82,25 +82,25 @@ export default function Header() {
 
             <button
               onClick={handleToggleTheme}
-              className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 shadow-sm hover:shadow-md"
+              className="p-1.5 sm:p-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 shadow-sm hover:shadow-md"
               aria-label="Toggle theme"
             >
               {darkmode ? (
-                <Sun className="w-5 h-5" />
+                <Sun className="w-4 h-4 sm:w-5 sm:h-5" />
               ) : (
-                <Moon className="w-5 h-5" />
+                <Moon className="w-4 h-4 sm:w-5 sm:h-5" />
               )}
             </button>
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              className="md:hidden p-1.5 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? (
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <Menu className="w-5 h-5" />
               )}
             </button>
           </div>
@@ -112,7 +112,7 @@ export default function Header() {
             isMenuOpen ? "max-h-96 opacity-100 py-4" : "max-h-0 opacity-0"
           }`}
         >
-          <div className="flex flex-col gap-2 text-gray-700 dark:text-gray-300 border-t border-gray-200 dark:border-gray-800 pt-4">
+          <div className="flex flex-col gap-2 text-sm text-gray-700 dark:text-gray-300 border-t border-gray-200 dark:border-gray-800 pt-4">
             <Link
               href="/"
               className="px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition"
@@ -152,7 +152,7 @@ export default function Header() {
             <div className="flex gap-3 mt-2 pt-2 border-t border-gray-200 dark:border-gray-800">
               <Link
                 href="/login"
-                className="flex-1 text-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition"
+                className="flex-1 text-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition"
                 onClick={() => {
                   setIsMenuOpen(false);
                 }}
@@ -161,7 +161,7 @@ export default function Header() {
               </Link>
               <Link
                 href="/register"
-                className="flex-1 text-center px-4 py-2 text-sm font-medium bg-green-600 hover:bg-green-700 text-white rounded-xl transition"
+                className="flex-1 text-center px-3 py-2 text-sm font-medium bg-green-600 hover:bg-green-700 text-white rounded-xl transition"
                 onClick={() => {
                   setIsMenuOpen(false);
                 }}
