@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
         className="min-h-screen bg-white dark:bg-black"
         suppressHydrationWarning
       >
-        <div className="fixed inset-0 -z-10 h-svh">
+        <div className="fixed inset-0 -z-10 h-lvh">
           <Image
             src="/images/background_image.avif"
             alt=""
