@@ -1,17 +1,37 @@
 // app/login/page.jsx
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { Mail, Lock, LogIn, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { asynkLogin, setErrorNull } from "@/store/userSlice";
 
 export default function LoginPage() {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { isAuthenticated, loading, error } = useSelector(
+    (state) => state.user,
+  );
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [serverError, setServerError] = useState("");
+
+
+  useEffect(() => {
+    dispatch(setErrorNull());
+
+    return () => {
+      dispatch(setErrorNull());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log(loading,isAuthenticated)
+    if (!loading && isAuthenticated) {
+      router.push("/dashboard");
+    }
+  }, [isAuthenticated, loading, router]);
 
   const {
     register,
@@ -25,26 +45,13 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data) => {
-    setLoading(true);
-    setServerError("");
-
     try {
-      // const res = await fetch("/api/login", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(data),
-      // });
-      // if (!res.ok) throw new Error("ایمیل یا رمز عبور اشتباه است");
-      // const user = await res.json();
-      
-      // شبیه‌سازی موفقیت
-      setTimeout(() => {
-        setLoading(false);
-        router.push("/");
-      }, 1500);
+      const result = await dispatch(asynkLogin(data));
+      if (asynkLogin.fulfilled.match(result)) {
+        router.push("/dashboard");
+      }
     } catch (err) {
-      setServerError(err.message);
-      setLoading(false);
+      console.error(err);
     }
   };
 
@@ -120,7 +127,11 @@ export default function LoginPage() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition"
               >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
               </button>
             </div>
             {errors.password && (
@@ -130,10 +141,10 @@ export default function LoginPage() {
             )}
           </div>
 
-          {/* خطای سرور */}
-          {serverError && (
+          {/* ✅ نمایش خطا */}
+          {error && (
             <div className="text-red-500 text-sm text-center bg-red-50 dark:bg-red-950/30 py-2 rounded-lg flex items-center justify-center gap-2">
-              <AlertCircle className="w-4 h-4" /> {serverError}
+              <AlertCircle className="w-4 h-4" /> {error}
             </div>
           )}
 

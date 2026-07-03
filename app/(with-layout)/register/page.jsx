@@ -1,18 +1,44 @@
 // app/register/page.jsx
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import { User, Mail, Lock, UserPlus, AlertCircle, Eye, EyeOff } from "lucide-react";
+import {
+  User,
+  Mail,
+  Lock,
+  UserPlus,
+  AlertCircle,
+  Eye,
+  EyeOff,
+} from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { asynkRegister, setErrorNull } from "@/store/userSlice";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { isAuthenticated, loading, error } = useSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [serverError, setServerError] = useState("");
+
+  // ✅ پاک کردن خطا هنگام ورود و خروج از صفحه
+  useEffect(() => {
+    dispatch(setErrorNull());
+
+    return () => {
+      dispatch(setErrorNull());
+    };
+  }, [dispatch]);
+
+  // ✅ اگه لاگین هست، به داشبورد هدایت کن
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      router.push("/dashboard");
+    }
+  }, [isAuthenticated, loading, router]);
 
   const {
     register,
@@ -31,29 +57,13 @@ export default function RegisterPage() {
   const password = watch("password");
 
   const onSubmit = async (data) => {
-    setLoading(true);
-    setServerError("");
-
     try {
-      // const res = await fetch("/api/register", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({
-      //     username: data.username,
-      //     email: data.email,
-      //     password: data.password,
-      //   }),
-      // });
-      // if (!res.ok) throw new Error("خطا در ثبت‌نام");
-      
-      // شبیه‌سازی موفقیت
-      setTimeout(() => {
-        setLoading(false);
-        router.push("/login");
-      }, 1500);
+      const result = await dispatch(asynkRegister(data));
+      if (asynkRegister.fulfilled.match(result)) {
+        router.push("/dashboard");
+      }
     } catch (err) {
-      setServerError(err.message);
-      setLoading(false);
+      console.error(err);
     }
   };
 
@@ -156,7 +166,11 @@ export default function RegisterPage() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition"
               >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
               </button>
             </div>
             {errors.password && (
@@ -188,20 +202,25 @@ export default function RegisterPage() {
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition"
               >
-                {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showConfirmPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
               </button>
             </div>
             {errors.confirmPassword && (
               <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                <AlertCircle className="w-3 h-3" /> {errors.confirmPassword.message}
+                <AlertCircle className="w-3 h-3" />{" "}
+                {errors.confirmPassword.message}
               </p>
             )}
           </div>
 
-          {/* خطای سرور */}
-          {serverError && (
+          {/* ✅ نمایش خطا */}
+          {error && (
             <div className="text-red-500 text-sm text-center bg-red-50 dark:bg-red-950/30 py-2 rounded-lg flex items-center justify-center gap-2">
-              <AlertCircle className="w-4 h-4" /> {serverError}
+              <AlertCircle className="w-4 h-4" /> {error}
             </div>
           )}
 

@@ -1,6 +1,7 @@
-import Image from "next/image";
+// app/layout.js
 import "./globals.css";
 import { Providers } from "@/store/providers";
+import ClientLayout from "@/components/ClientLayout"; // ← ایمپورت کامپوننت کلاینت
 
 export const metadata = {
   title: "MineNews",
@@ -9,24 +10,16 @@ export const metadata = {
     icon: "/images/iconimage.webp",
   },
 };
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="fa" data-theme="light" dir="rtl">
+    <html lang="fa" dir="rtl">
       <body
         className="min-h-screen bg-white dark:bg-black"
         suppressHydrationWarning
       >
-        <div className="fixed inset-0 -z-10 h-lvh">
-          <Image
-            src="/images/background_image.avif"
-            alt=""
-            fill
-            priority
-            className="object-cover opacity-30"
-          />
-        </div>
         <Providers>
-          <main>{children}</main>
+          <ClientLayout>{children}</ClientLayout>
         </Providers>
       </body>
     </html>
