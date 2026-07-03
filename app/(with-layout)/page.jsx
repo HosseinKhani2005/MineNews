@@ -114,7 +114,7 @@ const features = [
 
 export default function HomePage() {
   const router = useRouter();
-  const darkmode = useSelector((state) => state.theme.darkmode);
+  const darkmode = useSelector((state) => state.theme?.darkmode ?? false);
   const dispatch = useDispatch();
 
   return (

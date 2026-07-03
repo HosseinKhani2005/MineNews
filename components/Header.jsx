@@ -6,12 +6,12 @@ import { Moon, Sun, Menu, X, User, LogOut } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { asynkLogout } from "@/store/userSlice";
-import { ToggleTheme } from "@/store/themeSlice";
+import { ToggleTheme } from "@/store/store";
 
 export default function Header() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const darkmode = useSelector((state) => state.theme.darkmode);
+  const darkmode = useSelector((state) => state.theme?.darkmode ?? false);
   const dispatch = useDispatch();
 
   const { isAuthenticated, loading, user } = useSelector((state) => state.user);

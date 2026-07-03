@@ -2,11 +2,11 @@
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setTheme } from "@/store/themeSlice";
+import { setTheme } from "@/store/store";
 
 export default function ThemeSync() {
   const dispatch = useDispatch();
-  const darkmode = useSelector((state) => state.theme.darkmode);
+  const darkmode = useSelector((state) => state.theme?.darkmode ?? false);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
