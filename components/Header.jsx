@@ -2,11 +2,12 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { ToggleTheme } from "@/store/themeSlice";
 import { Moon, Sun, Menu, X, User, LogOut } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { asynkLogout } from "@/store/userSlice";
+// import { ToggleTheme } from "@/store/themeSlice";
+
 
 export default function Header() {
   const router = useRouter();
@@ -16,11 +17,11 @@ export default function Header() {
 
   const { isAuthenticated, loading, user } = useSelector((state) => state.user);
 
-  const handleToggleTheme = () => {
-    dispatch(ToggleTheme());
-    const newTheme = !darkmode ? "dark" : "light";
-    document.documentElement.setAttribute("data-theme", newTheme);
-  };
+  // const handleToggleTheme = () => {
+  //   dispatch(ToggleTheme());
+  //   const newTheme = !darkmode ? "dark" : "light";
+  //   document.documentElement.setAttribute("data-theme", newTheme);
+  // };
 
   const handleLogout = async() => {
     try {

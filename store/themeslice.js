@@ -4,8 +4,6 @@ const themeslice = createSlice({
   name: "darkmode",
   initialState: {
     darkmode: false,
-    loading: false,
-    error: null,
   },
   reducers: {
     ToggleTheme: (state) => {
