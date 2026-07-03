@@ -88,7 +88,7 @@ export default function Footer() {
             <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
               <li>
                 <Link
-                  href="/privacy"
+                  href="/"
                   className="text-gray-500 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors"
                 >
                   حریم خصوصی
@@ -96,7 +96,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/terms"
+                  href="/"
                   className="text-gray-500 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors"
                 >
                   قوانین و مقررات
@@ -104,7 +104,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/contact"
+                  href="/"
                   className="text-gray-500 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors"
                 >
                   تماس با ما
@@ -112,7 +112,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/faq"
+                  href="/"
                   className="text-gray-500 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors"
                 >
                   سوالات متداول
