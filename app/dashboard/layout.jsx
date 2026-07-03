@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { ToggleTheme } from "@/store/themeSlice";
 import {
   LayoutDashboard,
   Settings,
@@ -25,6 +24,7 @@ import {
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { asynkLogout } from "@/store/userSlice";
+import { ToggleTheme } from "@/store/themeSlice";
 
 const navItems = [
   {
