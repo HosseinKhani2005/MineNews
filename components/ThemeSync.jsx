@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setTheme } from "@/store/store";
 
 export default function ThemeSync() {
   const dispatch = useDispatch();
   const darkmode = useSelector((state) => state.theme?.darkmode ?? false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -23,11 +24,19 @@ export default function ThemeSync() {
   }, [dispatch]);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     document.documentElement.setAttribute(
       "data-theme",
       darkmode ? "dark" : "light",
     );
   }, [darkmode]);
+
+  if (!mounted) {
+    return null;
+  }
 
   return null;
 }

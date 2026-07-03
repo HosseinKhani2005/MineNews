@@ -3,18 +3,10 @@ import userSlice from "./userSlice";
 
 const THEME_STORAGE_KEY = "theme";
 
-function getInitialTheme() {
-  if (typeof window === "undefined") {
-    return "light";
-  }
-
-  return localStorage.getItem(THEME_STORAGE_KEY) || "light";
-}
-
 const themeSlice = createSlice({
   name: "darkmode",
   initialState: {
-    darkmode: getInitialTheme() === "dark",
+    darkmode: false,
   },
   reducers: {
     ToggleTheme: (state) => {
@@ -39,7 +31,7 @@ export const { ToggleTheme, setTheme } = themeSlice.actions;
 
 export const store = configureStore({
   reducer: {
-    theme: themeSlice,
+    theme: themeSlice.reducer,
     user: userSlice,
   },
 });

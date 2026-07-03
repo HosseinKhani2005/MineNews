@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_SERVER_ADDRESS?.trim();
+
 export const asynkLogin = createAsyncThunk(
   "auth/login",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        `${process.env.SERVER_ADDRESS}/api/auth/login`,
+        `${API_BASE_URL}/api/auth/login`,
         { ...data },
         { withCredentials: true },
       );
@@ -21,7 +24,7 @@ export const asynkRegister = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        `${process.env.SERVER_ADDRESS}/api/auth/register`,
+        `${API_BASE_URL}/api/auth/register`,
         { username: data.username, password: data.password, email: data.email },
         { withCredentials: true },
       );
@@ -35,7 +38,7 @@ export const checkAuth = createAsyncThunk(
   "auth/checkout",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`${process.env.SERVER_ADDRESS}http://localhost:2000/api/auth/check`, {
+      const res = await axios.get(`${API_BASE_URL}/api/auth/check`, {
         withCredentials: true,
       });
       return res.data.user;
@@ -49,15 +52,15 @@ export const asynkLogout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        `${process.env.SERVER_ADDRESS}/api/auth/logout`,
-        {}, 
-        { withCredentials: true } 
+        `${API_BASE_URL}/api/auth/logout`,
+        {},
+        { withCredentials: true },
       );
-      return res.data; 
+      return res.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || "خطا در خروج");
     }
-  }
+  },
 );
 const userSlice = createSlice({
   name: "user",
@@ -136,10 +139,9 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         state.isAuthenticated = false;
-
-      })
+      });
   },
 });
 
-export const {setErrorNull } = userSlice.actions;
+export const { setErrorNull } = userSlice.actions;
 export default userSlice.reducer;
