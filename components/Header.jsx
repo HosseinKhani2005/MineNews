@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { ToggleTheme } from "@/store/themeSlice";
+import { ToggleTheme } from "../store/themeSlice";
 import { Moon, Sun, Menu, X, User, LogOut } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
