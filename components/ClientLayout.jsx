@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { checkAuth } from "@/store/userSlice";
+import ThemeSync from "@/components/ThemeSync";
 
 export const metadata = {
   title: "MineNews",
@@ -18,6 +19,7 @@ export default function RootClientLayout({ children }) {
   }, [dispatch]);
   return (
     <>
+      <ThemeSync />
       <div className="fixed inset-0 -z-10 h-lvh">
         <Image
           src="/images/background_image.avif"

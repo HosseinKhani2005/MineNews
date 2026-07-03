@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { asynkLogout } from "@/store/userSlice";
 import { ToggleTheme } from "@/store/themeSlice";
 
-
 export default function Header() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,19 +18,15 @@ export default function Header() {
 
   const handleToggleTheme = () => {
     dispatch(ToggleTheme());
-    const newTheme = !darkmode ? "dark" : "light";
-    document.documentElement.setAttribute("data-theme", newTheme);
   };
 
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     try {
-      const result = await dispatch(asynkLogout())
+      const result = await dispatch(asynkLogout());
       if (asynkLogout.fulfilled.match(result)) {
         router.push("/");
       }
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   return (
@@ -98,7 +93,6 @@ export default function Header() {
                     {user?.username || "کاربر"}
                   </span>
                 </Link>
-
               </>
             ) : (
               <>

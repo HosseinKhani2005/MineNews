@@ -1,4 +1,3 @@
-// app/layout.js
 import "./globals.css";
 import { Providers } from "@/store/providers";
 import ClientLayout from "@/components/ClientLayout"; // ← ایمپورت کامپوننت کلاینت
@@ -14,7 +13,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="fa" dir="rtl">
-      <body className="min-h-screen bg-white dark:bg-black">
+      <body
+        className="min-h-screen bg-white dark:bg-black"
+        suppressHydrationWarning
+      >
         <Providers>
           <ClientLayout>{children}</ClientLayout>
         </Providers>
