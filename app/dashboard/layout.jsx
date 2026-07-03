@@ -23,8 +23,8 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { asynkLogout } from "../..//store/userSlice";
-import { ToggleTheme } from "../../store/themeSlice";
+import { asynkLogout } from "@/store/userSlice";
+import { ToggleTheme } from "@/store/themeSlice";
 
 const navItems = [
   {
