@@ -24,7 +24,7 @@ import {
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { asynkLogout } from "@/store/userSlice";
-// import { ToggleTheme } from "@/store/themeSlice";
+import { ToggleTheme } from "@/store/themeSlice";
 
 const navItems = [
   {
@@ -61,11 +61,11 @@ export default function DashboardLayout({ children }) {
   const { isAuthenticated, loading, user } = useSelector((state) => state.user);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // const handleToggleTheme = () => {
-  //   dispatch(ToggleTheme());
-  //   const newTheme = !darkmode ? "dark" : "light";
-  //   document.documentElement.setAttribute("data-theme", newTheme);
-  // };
+  const handleToggleTheme = () => {
+    dispatch(ToggleTheme());
+    const newTheme = !darkmode ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", newTheme);
+  };
 
   const handleLogout = async () => {
     try {
