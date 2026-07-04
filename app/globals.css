@@ -21,7 +21,9 @@
 body {
 	font-family: 'ClassicEnglishFont','PersianFont', sans-serif;
 }
-
+.grecaptcha-badge {
+  visibility: hidden !important;
+}
 @media (max-width: 640px) {
 	html {
 		font-size: 87.5%;

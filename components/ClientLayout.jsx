@@ -5,13 +5,6 @@ import { useDispatch } from "react-redux";
 import { checkAuth } from "@/store/userSlice";
 import ThemeSync from "@/components/ThemeSync";
 
-export const metadata = {
-  title: "MineNews",
-  description: "Latest Minecraft news, updates, guides and tutorials.",
-  icons: {
-    icon: "/images/iconimage.webp",
-  },
-};
 export default function RootClientLayout({ children }) {
   const dispatch = useDispatch();
   useEffect(() => {

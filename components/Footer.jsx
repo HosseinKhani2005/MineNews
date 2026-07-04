@@ -161,15 +161,32 @@ export default function Footer() {
           </motion.div>
         </div>
 
-        {/* کپی‌رایت */}
+        {/* کپی‌رایت + برندینگ reCAPTCHA */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-5 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-800 flex flex-row items-center justify-between gap-2 text-xs text-gray-400 dark:text-gray-500"
+          className="mt-5 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-800 flex flex-col items-center gap-3 text-xs text-gray-400 dark:text-gray-500"
         >
-          <p>© {new Date().getFullYear()} MineNews. تمامی حقوق محفوظ است.</p>
-          <p>نسخه ۲.۰ | ساخته شده با Next.js 15</p>
+          {/* ====== برندینگ reCAPTCHA ====== */}
+          <p className="text-center text-[11px] sm:text-xs text-gray-400 dark:text-gray-500">
+            این سایت توسط سرویس{" "}
+            <a
+              href="https://policies.google.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline dark:text-blue-400"
+            >
+              Google reCAPTCHA
+            </a>{" "}
+            برای جلوگیری از هرزنامه و افزایش امنیت محافظت می‌شود.
+          </p>
+
+          {/* ====== کپی‌رایت ====== */}
+          <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-2">
+            <p>© {new Date().getFullYear()} MineNews. تمامی حقوق محفوظ است.</p>
+            <p>نسخه ۲.۰ | ساخته شده با Next.js 15</p>
+          </div>
         </motion.div>
       </div>
     </footer>

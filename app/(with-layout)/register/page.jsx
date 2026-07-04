@@ -16,15 +16,18 @@ import {
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { asynkRegister, setErrorNull } from "@/store/userSlice";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export default function RegisterPage() {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const router = useRouter();
   const dispatch = useDispatch();
-  const { isAuthenticated, loading, error } = useSelector((state) => state.user);
+  const { isAuthenticated, loading, error } = useSelector(
+    (state) => state.user,
+  );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // ✅ پاک کردن خطا هنگام ورود و خروج از صفحه
   useEffect(() => {
     dispatch(setErrorNull());
 
@@ -33,7 +36,6 @@ export default function RegisterPage() {
     };
   }, [dispatch]);
 
-  // ✅ اگه لاگین هست، به داشبورد هدایت کن
   useEffect(() => {
     if (!loading && isAuthenticated) {
       router.push("/dashboard");
@@ -58,7 +60,15 @@ export default function RegisterPage() {
 
   const onSubmit = async (data) => {
     try {
-      const result = await dispatch(asynkRegister(data));
+      const recaptchaToken = await executeRecaptcha("register");
+      const result = await dispatch(
+        asynkRegister({
+          username: data.username,
+          email: data.email,
+          password: data.password,
+          recaptchaToken,
+        }),
+      );
       if (asynkRegister.fulfilled.match(result)) {
         router.push("/dashboard");
       }

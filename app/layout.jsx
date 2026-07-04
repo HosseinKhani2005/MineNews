@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Providers } from "@/store/providers";
-import ClientLayout from "@/components/ClientLayout"; // ← ایمپورت کامپوننت کلاینت
+import ClientLayout from "@/components/ClientLayout"; 
+import RecaptchaProvider from "@/components/RecaptchaProvider";
 
 export const metadata = {
   title: "MineNews",
@@ -18,7 +19,9 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning
       >
         <Providers>
-          <ClientLayout>{children}</ClientLayout>
+          <RecaptchaProvider>
+            <ClientLayout>{children}</ClientLayout>
+          </RecaptchaProvider>
         </Providers>
       </body>
     </html>

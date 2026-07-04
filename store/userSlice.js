@@ -25,7 +25,7 @@ export const asynkRegister = createAsyncThunk(
     try {
       const res = await axios.post(
         `${API_BASE_URL}/api/auth/register`,
-        { username: data.username, password: data.password, email: data.email },
+        { ...data },
         { withCredentials: true },
       );
       return res.data.user;

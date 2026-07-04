@@ -8,15 +8,16 @@ import { motion } from "framer-motion";
 import { Mail, Lock, LogIn, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { asynkLogin, setErrorNull } from "@/store/userSlice";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export default function LoginPage() {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const router = useRouter();
   const dispatch = useDispatch();
   const { isAuthenticated, loading, error } = useSelector(
     (state) => state.user,
   );
   const [showPassword, setShowPassword] = useState(false);
-
 
   useEffect(() => {
     dispatch(setErrorNull());
@@ -45,7 +46,14 @@ export default function LoginPage() {
 
   const onSubmit = async (data) => {
     try {
-      const result = await dispatch(asynkLogin(data));
+      const recaptchaToken = await executeRecaptcha("login");
+      const result = await dispatch(
+        asynkLogin({
+          email: data.email,
+          password: data.password,
+          recaptchaToken,
+        }),
+      );
       if (asynkLogin.fulfilled.match(result)) {
         router.push("/dashboard");
       }
@@ -170,7 +178,7 @@ export default function LoginPage() {
           </Link>
         </p>
         <p className="text-center text-xs text-gray-500 dark:text-gray-500 mt-3">
-          <Link href="/forgot-password" className="hover:underline">
+          <Link href="/" className="hover:underline">
             رمز عبور را فراموش کردی؟
           </Link>
         </p>
