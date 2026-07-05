@@ -16,15 +16,17 @@ import {
   Sparkles,
   Menu,
   X,
-  Home,
-  Moon,
   Sun,
+  Moon,
   LogOut,
+  Camera,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { asynkLogout } from "@/store/userSlice";
 import { ToggleTheme } from "@/store/store";
+import Image from "next/image";
+import ChangeAvatarModal from "@/components/ChangeAvatarModal";
 
 const navItems = [
   {
@@ -60,6 +62,7 @@ export default function DashboardLayout({ children }) {
   const darkmode = useSelector((state) => state.theme?.darkmode ?? false);
   const { isAuthenticated, loading, user } = useSelector((state) => state.user);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
   const handleToggleTheme = () => {
     dispatch(ToggleTheme());
@@ -74,6 +77,12 @@ export default function DashboardLayout({ children }) {
         router.push("/");
       }
     } catch (error) {}
+  };
+
+  const handleAvatarSave = async (file) => {
+    // اینجا منطق آپلود عکس رو بنویسید
+    console.log("عکس جدید:", file);
+    // بعد از آپلود، state رو آپدیت کنید
   };
 
   useEffect(() => {
@@ -97,11 +106,25 @@ export default function DashboardLayout({ children }) {
   return (
     <div className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+        {/* ===== موبایل هدر ===== */}
         <div className="lg:hidden mb-6">
           <div className="flex items-center justify-between rounded-2xl p-4 border border-gray-200 dark:border-gray-800">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-linear-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-white font-bold">
-                H
+              <div className="relative">
+                <Image
+                  src={user.imageUrl}
+                  alt={user.username}
+                  width={40}
+                  height={40}
+                  className="rounded-full object-cover"
+                  unoptimized
+                />
+                <button
+                  onClick={() => setIsAvatarModalOpen(true)}
+                  className="absolute -bottom-1 -right-1 bg-emerald-500 hover:bg-emerald-600 text-white p-1 rounded-full border-2 border-white dark:border-gray-800 transition shadow-sm"
+                >
+                  <Camera className="w-3 h-3" />
+                </button>
               </div>
               <div>
                 <p className="text-sm font-bold text-gray-900 dark:text-white">
@@ -156,13 +179,13 @@ export default function DashboardLayout({ children }) {
                         href={item.href}
                         onClick={() => setIsMobileMenuOpen(false)}
                         className={`
-                            flex items-center gap-3 p-3 rounded-xl transition-all duration-200
-                            ${
-                              isActive
-                                ? "bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800"
-                                : "hover:bg-gray-50 dark:hover:bg-gray-800"
-                            }
-                          `}
+                          flex items-center gap-3 p-3 rounded-xl transition-all duration-200
+                          ${
+                            isActive
+                              ? "bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800"
+                              : "hover:bg-gray-50 dark:hover:bg-gray-800"
+                          }
+                        `}
                       >
                         <div
                           className={`
@@ -210,18 +233,31 @@ export default function DashboardLayout({ children }) {
 
         {/* ===== لایه‌بندی اصلی ===== */}
         <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[300px_1fr] xl:grid-cols-[340px_1fr]">
-          {/* ===== سایدبار (راست) ===== */}
+          {/* ===== سایدبار ===== */}
           <aside className="lg:sticky lg:top-24 order-2 lg:order-1">
             <div className="hidden lg:block">
               <div className="bg-white dark:bg-gray-900 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden flex flex-col">
                 {/* هدر سایدبار */}
                 <div className="relative overflow-hidden p-6 bg-linear-to-br from-gray-900 via-emerald-800 to-cyan-700">
-                  <div className="absolute inset-0 opacity-20 bg-[radial-linear(circle_at_top_left,white,transparent_60%)]" />
+                  <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_left,white,transparent_60%)]" />
                   <div className="relative">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30">
-                          <User className="w-7 h-7 text-white" />
+                        <div className="relative">
+                          <Image
+                            src={user.imageUrl}
+                            alt={user.username}
+                            width={56}
+                            height={56}
+                            className="rounded-full object-cover border-2 border-white/30"
+                            unoptimized
+                          />
+                          <button
+                            onClick={() => setIsAvatarModalOpen(true)}
+                            className="absolute -bottom-1 -right-1 bg-emerald-500 hover:bg-emerald-600 text-white p-1.5 rounded-full border-2 border-white dark:border-gray-800 transition shadow-sm"
+                          >
+                            <Camera className="w-3.5 h-3.5" />
+                          </button>
                         </div>
                         <div>
                           <p className="text-sm text-white/80">خوش آمدید</p>
@@ -257,7 +293,7 @@ export default function DashboardLayout({ children }) {
                   </div>
                 </div>
 
-                {/* ناوبری - بدون اسکرول اضافی */}
+                {/* ناوبری */}
                 <nav className="p-4 space-y-1.5">
                   {navItems.map((item) => {
                     const isActive = pathname === item.href;
@@ -268,13 +304,13 @@ export default function DashboardLayout({ children }) {
                         key={item.href}
                         href={item.href}
                         className={`
-                            group relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200
-                            ${
-                              isActive
-                                ? "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300"
-                                : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
-                            }
-                          `}
+                          group relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200
+                          ${
+                            isActive
+                              ? "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300"
+                              : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+                          }
+                        `}
                       >
                         <div
                           className={`
@@ -330,7 +366,7 @@ export default function DashboardLayout({ children }) {
                   </button>
                 </nav>
 
-                {/* پایین سایدبار - ثابت */}
+                {/* پایین سایدبار */}
                 <div className="p-4 border-t border-gray-200 dark:border-gray-800 mt-auto">
                   <div className="bg-linear-to-r from-emerald-50 to-cyan-50 dark:from-emerald-950/20 dark:to-cyan-950/20 rounded-2xl p-4 border border-emerald-200 dark:border-emerald-800">
                     <div className="flex items-center gap-3">
@@ -362,6 +398,13 @@ export default function DashboardLayout({ children }) {
           <main className="min-w-0 order-1 lg:order-2">{children}</main>
         </div>
       </div>
+
+      {/* مودال تغییر عکس */}
+      <ChangeAvatarModal
+        isOpen={isAvatarModalOpen}
+        onClose={() => setIsAvatarModalOpen(false)}
+        onSave={handleAvatarSave}
+      />
     </div>
   );
 }

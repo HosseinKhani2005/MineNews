@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { Moon, Sun, Menu, X, User, LogOut } from "lucide-react";
+import { Moon, Sun, Menu, X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { asynkLogout } from "@/store/userSlice";
@@ -33,7 +33,6 @@ export default function Header() {
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300 sticky top-0 z-50 shadow-sm">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16">
-          {/* لوگو */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <Image
               src="/images/iconimage.webp"
@@ -86,9 +85,14 @@ export default function Header() {
                   href="/dashboard"
                   className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                 >
-                  <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">
-                    {user?.username?.[0]?.toUpperCase() || "U"}
-                  </div>
+                  <Image
+                    src={user.imageUrl}
+                    alt="pciture"
+                    width={32}
+                    height={32}
+                    className="objcet-cover rounded-full"
+                    unoptimized
+                  />
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">
                     {user?.username || "کاربر"}
                   </span>

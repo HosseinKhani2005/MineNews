@@ -3,29 +3,21 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import CountUp from "@/func/Countup";
+import { useSelector } from "react-redux";
+
 import {
-  ArrowLeft,
+  X,
+  CheckCircle,
   ChevronLeft,
-  MessageSquare,
-  Sparkles,
-  TrendingUp,
-  Users,
-  Zap,
   ShoppingBag,
   Package,
   Gift,
   CreditCard,
-  Gamepad2,
-  Trophy,
-  Hash,
-  LayoutGrid,
-  Star,
   Flame,
-  Clock,
   Plus,
   Wallet,
 } from "lucide-react";
-import { User, Sword, Gem, Crown, Pickaxe } from "lucide-react";
+import { Sword, Gem, Crown, Pickaxe } from "lucide-react";
 import { useState } from "react";
 
 const summaryCards = [
@@ -143,6 +135,7 @@ const currency = new Intl.NumberFormat("fa-IR");
 const chargeAmounts = [50000, 100000, 200000, 500000];
 
 export default function DashboardPage() {
+  const { user } = useSelector((state) => state.user);
   const [showChargeModal, setShowChargeModal] = useState(false);
   const [selectedAmount, setSelectedAmount] = useState(100000);
   const [isCharging, setIsCharging] = useState(false);
@@ -210,7 +203,6 @@ export default function DashboardPage() {
 
       {/* ===== بخش اصلی ===== */}
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-        
         {/* ===== ستون چپ ===== */}
         <div className="space-y-6">
           {/* خریدهای اخیر */}
@@ -250,12 +242,16 @@ export default function DashboardPage() {
                           {purchase.title}
                         </p>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-xs text-gray-500">{purchase.date}</span>
-                          <span className={`text-xs px-2 py-0.5 rounded-full ${
-                            isDelivered 
-                              ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300'
-                              : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300'
-                          }`}>
+                          <span className="text-xs text-gray-500">
+                            {purchase.date}
+                          </span>
+                          <span
+                            className={`text-xs px-2 py-0.5 rounded-full ${
+                              isDelivered
+                                ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300"
+                                : "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300"
+                            }`}
+                          >
                             {purchase.status}
                           </span>
                         </div>
@@ -292,7 +288,9 @@ export default function DashboardPage() {
                     className="flex items-center justify-between p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50"
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-xl bg-linear-to-br ${pkg.color} flex items-center justify-center text-white`}>
+                      <div
+                        className={`w-10 h-10 rounded-xl bg-linear-to-br ${pkg.color} flex items-center justify-center text-white`}
+                      >
                         <Icon className="w-5 h-5" />
                       </div>
                       <div>
@@ -300,12 +298,18 @@ export default function DashboardPage() {
                           {pkg.name}
                         </p>
                         <p className="text-xs text-gray-500">
-                          باقی‌مانده: <span className="font-semibold text-emerald-600">{pkg.remaining}</span>
+                          باقی‌مانده:{" "}
+                          <span className="font-semibold text-emerald-600">
+                            {pkg.remaining}
+                          </span>
                         </p>
                       </div>
                     </div>
                     <div className="w-16 h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
-                      <div className="h-full rounded-full bg-emerald-500" style={{ width: '70%' }} />
+                      <div
+                        className="h-full rounded-full bg-emerald-500"
+                        style={{ width: "70%" }}
+                      />
                     </div>
                   </div>
                 );
@@ -340,7 +344,9 @@ export default function DashboardPage() {
               </button>
             </div>
             <div className="bg-white/50 dark:bg-gray-900/50 rounded-xl p-4 border border-violet-200 dark:border-violet-800">
-              <p className="text-xs text-gray-500 dark:text-gray-400">موجودی فعلی</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                موجودی فعلی
+              </p>
               <p className="text-3xl font-black text-violet-700 dark:text-violet-400">
                 {currency.format(250000)} تومان
               </p>
@@ -349,7 +355,9 @@ export default function DashboardPage() {
                   فعال
                 </span>
                 <span className="text-[10px] text-gray-400">|</span>
-                <span className="text-[10px] text-gray-500">آخرین شارژ: ۱۴۰۳/۰۴/۱۲</span>
+                <span className="text-[10px] text-gray-500">
+                  آخرین شارژ: ۱۴۰۳/۰۴/۱۲
+                </span>
               </div>
             </div>
           </motion.div>
@@ -372,14 +380,12 @@ export default function DashboardPage() {
               {specialOffers.map((offer) => {
                 const Icon = offer.icon;
                 return (
-                  <Link
-                    key={offer.name}
-                    href="/shop"
-                    className="block group"
-                  >
+                  <Link key={offer.name} href="/shop" className="block group">
                     <div className="flex items-center justify-between p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 hover:border-orange-300 dark:hover:border-orange-700 hover:bg-orange-50/30 dark:hover:bg-orange-950/20 transition">
                       <div className="flex items-center gap-3">
-                        <div className={`w-10 h-10 rounded-xl bg-linear-to-br ${offer.color} flex items-center justify-center text-white`}>
+                        <div
+                          className={`w-10 h-10 rounded-xl bg-linear-to-br ${offer.color} flex items-center justify-center text-white`}
+                        >
                           <Icon className="w-5 h-5" />
                         </div>
                         <div>
@@ -431,16 +437,24 @@ export default function DashboardPage() {
             </div>
             <div className="space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600 dark:text-gray-400">نوع حساب</span>
-                <span className="font-bold text-gray-900 dark:text-white">کاربر عادی</span>
+                <span className="text-gray-600 dark:text-gray-400">
+                  نوع حساب
+                </span>
+                <span className="font-bold text-gray-900 dark:text-white">
+                  کاربر عادی
+                </span>
               </div>
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-600 dark:text-gray-400">وضعیت</span>
                 <span className="font-bold text-emerald-600">فعال</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600 dark:text-gray-400">تاریخ عضویت</span>
-                <span className="font-bold text-gray-900 dark:text-white">۱۴۰۳/۰۱/۰۱</span>
+                <span className="text-gray-600 dark:text-gray-400">
+                  تاریخ عضویت
+                </span>
+                <span className="font-bold text-gray-900 dark:text-white">
+                  {user.dateCreate}
+                </span>
               </div>
             </div>
           </motion.div>
@@ -482,9 +496,10 @@ export default function DashboardPage() {
                   onClick={() => setSelectedAmount(amount)}
                   className={`
                     p-3 rounded-xl border-2 text-sm font-bold transition
-                    ${selectedAmount === amount
-                      ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/30 text-violet-700 dark:text-violet-300'
-                      : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-violet-300 dark:hover:border-violet-700'
+                    ${
+                      selectedAmount === amount
+                        ? "border-violet-500 bg-violet-50 dark:bg-violet-950/30 text-violet-700 dark:text-violet-300"
+                        : "border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-violet-300 dark:hover:border-violet-700"
                     }
                   `}
                 >
@@ -494,7 +509,9 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl mb-4">
-              <span className="text-sm text-gray-500 dark:text-gray-400">مبلغ انتخابی:</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                مبلغ انتخابی:
+              </span>
               <span className="text-sm font-bold text-violet-700 dark:text-violet-400">
                 {currency.format(selectedAmount)} تومان
               </span>
@@ -505,9 +522,10 @@ export default function DashboardPage() {
               disabled={isCharging}
               className={`
                 w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold text-white transition
-                ${isCharging
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-violet-600 hover:bg-violet-700 shadow-lg shadow-violet-500/25'
+                ${
+                  isCharging
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-violet-600 hover:bg-violet-700 shadow-lg shadow-violet-500/25"
                 }
               `}
             >
@@ -538,6 +556,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-// آیکون‌های مورد نیاز
-import { X, CheckCircle } from "lucide-react";
