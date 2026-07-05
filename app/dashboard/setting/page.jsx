@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import toast from 'react-hot-toast'; // ✅ اضافه کنید
 import {
   User,
   Mail,
@@ -12,18 +13,18 @@ import {
   X,
   Check,
   AlertCircle,
-  CheckCircle,
   Eye,
   EyeOff,
-  Shield,
 } from "lucide-react";
+import { changePassword } from "@/store/userSlice";
 
 export default function DashboardSettingPage() {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [saved, setSaved] = useState(false);
+  // ❌ حذف کنید: const [saved, setSaved] = useState(false);
 
   const {
     register,
@@ -50,12 +51,59 @@ export default function DashboardSettingPage() {
     return true;
   };
 
-  const onSubmit = (data) => {
-    console.log("تغییر پسورد:", data.newPassword);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
-    setIsChangingPassword(false);
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      const result = await dispatch(changePassword(data));
+      
+      // بررسی موفقیت آمیز بودن تغییر پسورد
+      if (changePassword.fulfilled.match(result)) {
+        // ✅ نمایش پیام موفقیت با toast
+        toast.success('✅ رمز عبور با موفقیت تغییر کرد', {
+          icon: '🔒',
+          duration: 4000,
+          style: {
+            background: '#10b981',
+            color: '#fff',
+            fontWeight: '600',
+            padding: '16px 24px',
+            borderRadius: '12px',
+            boxShadow: '0 10px 25px rgba(16, 185, 129, 0.3)',
+          },
+          iconTheme: {
+            primary: '#fff',
+            secondary: '#10b981',
+          },
+        });
+        
+        // بستن فرم تغییر پسورد
+        setIsChangingPassword(false);
+        reset();
+      } else {
+        // ❌ نمایش پیام خطا
+        toast.error('خطا در تغییر رمز عبور', {
+          duration: 4000,
+          style: {
+            background: '#ef4444',
+            color: '#fff',
+            fontWeight: '600',
+            padding: '16px 24px',
+            borderRadius: '12px',
+          },
+        });
+      }
+    } catch (error) {
+      // ❌ نمایش پیام خطا
+      toast.error('مشکلی در ارتباط با سرور رخ داده است', {
+        duration: 4000,
+        style: {
+          background: '#ef4444',
+          color: '#fff',
+          fontWeight: '600',
+          padding: '16px 24px',
+          borderRadius: '12px',
+        },
+      });
+    }
   };
 
   const cancelPasswordChange = () => {
@@ -67,7 +115,7 @@ export default function DashboardSettingPage() {
     <div className="py-4 sm:py-6">
       <div className="max-w-2xl mx-auto px-2 sm:px-4">
         {/* هدر */}
-        <div className="mb-6 ">
+        <div className="mb-6">
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
             تنظیمات حساب
           </h1>
@@ -86,14 +134,14 @@ export default function DashboardSettingPage() {
             <div className="flex items-center gap-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl px-4 py-2.5">
               <User className="w-4 h-4 text-gray-400" />
               <span className="text-sm text-gray-900 dark:text-white">
-                {user.username}
+                {user?.username}
               </span>
               <span className="text-xs text-gray-400 mr-auto">نام کاربری</span>
             </div>
             <div className="flex items-center gap-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl px-4 py-2.5">
               <Mail className="w-4 h-4 text-gray-400" />
               <span className="text-sm text-gray-900 dark:text-white">
-                {user.email}
+                {user?.email}
               </span>
               <span className="text-xs text-gray-400 mr-auto">ایمیل</span>
             </div>
@@ -102,7 +150,6 @@ export default function DashboardSettingPage() {
             برای تغییر نام کاربری یا ایمیل با پشتیبانی تماس بگیرید
           </p>
         </div>
-
 
         {/* تغییر پسورد */}
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-4 sm:p-5">
@@ -197,7 +244,9 @@ export default function DashboardSettingPage() {
                     />
                     <button
                       type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                       className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                     >
                       {showConfirmPassword ? (
@@ -246,21 +295,8 @@ export default function DashboardSettingPage() {
           </AnimatePresence>
         </div>
 
-        {/* پیام موفقیت */}
-        <AnimatePresence>
-          {saved && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="flex items-center gap-2 text-sm text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 rounded-xl px-4 py-3 mt-4"
-            >
-              <CheckCircle className="w-4 h-4" />
-              رمز عبور با موفقیت تغییر کرد
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* ❌ حذف کنید بخش پیام موفقیت قبلی */}
       </div>
     </div>
   );
-}
+} 

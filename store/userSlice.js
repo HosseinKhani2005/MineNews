@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_SERVER_ADDRESS?.trim();
+const API_BASE_URL = process.env.NEXT_PUBLIC_SERVER_ADDRESS?.trim();
 
 export const asynkLogin = createAsyncThunk(
   "auth/login",
@@ -59,6 +58,21 @@ export const asynkLogout = createAsyncThunk(
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || "خطا در خروج");
+    }
+  },
+);
+export const changePassword = createAsyncThunk(
+  "user/changePassword",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axios.patch(
+        `${API_BASE_URL}/api/user/changePassword`,
+        { password: data.newPassword },
+        { withCredentials: true },
+      );
+      return res.data.user;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.error || "خطا در ورود");
     }
   },
 );
@@ -139,6 +153,18 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         state.isAuthenticated = false;
+      })
+      .addCase(changePassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(changePassword.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
       });
   },
 });
