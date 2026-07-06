@@ -1,94 +1,136 @@
-MineNews – A Modern Minecraft News Platform
-MineNews is a full-featured, modern web application built to deliver the latest Minecraft news, updates, guides, and community events. It serves as a specialized hub for the Minecraft community, offering real-time updates, user authentication, and an engaging, responsive user interface. This project was developed as a comprehensive front-end challenge to deepen my understanding of advanced React concepts, state management, and modern web performance optimization techniques.
+<!--
+  README.md for MineNews – A Modern Minecraft News Platform
+  Author: Hossein Khani
+-->
 
-You can explore the live project here: https://hosseinkhani20.ir/
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react&logoColor=white" alt="React" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/Redux_Toolkit-1.9-764ABC?style=for-the-badge&logo=redux&logoColor=white" alt="Redux Toolkit" />
+  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="MIT License" />
+</p>
 
-https://hosseinkhani20.ir/your-screenshot-path.png (Optional: Add a screenshot of your project)
+<h1 align="center">⛏️ MineNews – A Modern Minecraft News Platform</h1>
 
-🚀 Table of Contents
-Project Overview
+<p align="center">
+  <strong>Real-time news, guides, and community hub for Minecraft enthusiasts</strong>
+  <br />
+  <a href="https://hosseinkhani20.ir/">🔗 Live Demo</a>
+  ·
+  <a href="#-getting-started">🚀 Getting Started</a>
+  ·
+  <a href="#-key-technical-challenges--solutions">⚙️ Challenges</a>
+  ·
+  <a href="#-technologies-used">🛠️ Tech Stack</a>
+</p>
 
-Key Technical Challenges & Solutions
+<br />
 
-Google reCAPTCHA Integration
+![Project Screenshot](https://hosseinkhani20.ir/your-screenshot-path.png)  
+*(Replace with an actual screenshot of your project)*
 
-Authorization & Cookie Management
+---
 
-Error Handling & Loading States
+## 📖 Table of Contents
 
-Caching Hooks & Performance Optimization
+- [📌 Project Overview](#-project-overview)
+- [✨ Key Features](#-key-features)
+- [⚙️ Key Technical Challenges & Solutions](#️-key-technical-challenges--solutions)
+  - [1. Google reCAPTCHA Integration](#1-google-recaptcha-integration)
+  - [2. Authorization & Cookie Management](#2-authorization--cookie-management)
+  - [3. Error Handling & Loading States](#3-error-handling--loading-states)
+  - [4. Caching Hooks & Performance Optimization](#4-caching-hooks--performance-optimization)
+  - [5. Responsive Design Mastery](#5-responsive-design-mastery)
+  - [6. Auto-Login with Token Persistence](#6-auto-login-with-token-persistence)
+  - [7. Dark Mode Implementation](#7-dark-mode-implementation)
+- [🛠️ Technologies Used](#️-technologies-used)
+- [🚦 Getting Started](#-getting-started)
+- [📁 Project Structure](#-project-structure)
+- [🙏 Acknowledgments](#-acknowledgments)
 
-Responsive Design Mastery
+---
 
-Auto-Login with Token Persistence
+## 📌 Project Overview
 
-Dark Mode Implementation
+**MineNews** is a full‑featured, modern web application tailored for the **Minecraft community**. It delivers the latest news, updates, guides, tutorials, and community events in a clean, responsive interface. The platform includes user authentication, comment systems, and real‑time content feeds.
 
-Technologies Used
+This project was built as a comprehensive front‑end challenge to deepen my expertise in **React**, **Next.js**, state management (Redux Toolkit), performance optimization (caching hooks), and secure authentication flows. Every aspect – from UI/UX to security – has been carefully implemented to provide a seamless experience across all devices.
 
-Getting Started
+---
 
-Project Structure
+## ✨ Key Features
 
-Acknowledgments
+- ✅ **User Authentication** – Register, login, and logout with JWT-based sessions.
+- ✅ **Auto-Login** – Persistent sessions using HTTP-only cookies.
+- ✅ **Google reCAPTCHA** – Protects forms from spam and bots.
+- ✅ **Dark Mode** – Toggle between light and dark themes (custom-built, no external library).
+- ✅ **Responsive Design** – Fully optimized for desktops, tablets, and mobile phones.
+- ✅ **Real-time News Feed** – Dynamic content updates with caching for performance.
+- ✅ **Form Handling** – Powered by React Hook Form for efficient validation.
+- ✅ **Toast Notifications** – Beautiful feedback via React Hot Toast.
+- ✅ **Global State Management** – Redux Toolkit for predictable state.
 
-📖 Project Overview
-MineNews is a dynamic news platform tailored for the Minecraft community. It features a clean, modern design and provides users with the latest news, event listings, tutorials, and a community-driven comment section. The application emphasizes security, performance, and a seamless user experience across all devices.
+---
 
-⚙️ Key Technical Challenges & Solutions
-This project was a deep dive into modern front-end development, presenting several challenges that led to significant learning and skill enhancement.
+## ⚙️ Key Technical Challenges & Solutions
 
-1. Google reCAPTCHA Integration
-Challenge: Implementing Google reCAPTCHA to protect the platform from spam and bot submissions, especially on the registration and comment forms.
-Solution: The react-google-recaptcha library was integrated to add a layer of security. This involved setting up the reCAPTCHA site key, handling the verification token on the client-side, and ensuring the token is validated on the backend to confirm the user's authenticity.
+This project pushed my front‑end skills to the next level. Below are the major challenges I encountered and how I solved them.
 
-2. Authorization & Cookie Management
-Challenge: Securely managing user sessions and authentication tokens.
-Solution: This was one of the most critical parts of the project. JWT (JSON Web Tokens) are used for authentication. The tokens are securely stored in HTTP-only cookies to prevent XSS attacks. The challenge was understanding how to set, retrieve, and manage these cookies effectively to maintain a secure and stateless authentication flow.
+### 1. Google reCAPTCHA Integration
+**Challenge** – Prevent spam and automated submissions on registration and comment forms.  
+**Solution** – Integrated `react-google-recaptcha`. Configured the site key, generated a verification token on the client side, and sent it to the backend for validation. This ensured that only genuine users could post content.
 
-3. Error Handling & Loading States
-Challenge: Creating a smooth and user-friendly experience by gracefully handling API errors and providing clear feedback during asynchronous operations.
-Solution: A robust error-handling system was implemented using react-hot-toast for user-friendly notifications. Global and local error boundaries were considered to catch errors gracefully. Comprehensive loading states were added to all data-fetching operations to indicate progress to the user, preventing UI jank and improving the perceived performance.
+### 2. Authorization & Cookie Management
+**Challenge** – Securely manage user sessions without exposing tokens to XSS attacks.  
+**Solution** – Used **JWT (JSON Web Tokens)** stored in **HTTP‑only cookies**. This prevents client‑side JavaScript from accessing the token, mitigating XSS risks. Learned how to set, retrieve, and expire cookies effectively for a stateless authentication flow.
 
-4. Caching Hooks & Performance Optimization
-Challenge: Optimizing performance and reducing unnecessary API calls by caching data.
-Solution: This project provided a profound understanding of memoization and caching hooks like useMemo, useCallback, and React.memo. By strategically caching data and components, the site's performance was significantly boosted, leading to faster re-renders and a more responsive interface. This was crucial for handling the dynamic news feed and user data efficiently.
+### 3. Error Handling & Loading States
+**Challenge** – Provide a smooth UX by gracefully handling API errors and asynchronous operations.  
+**Solution** – Implemented a global error‑handling layer using `react-hot-toast` for user‑friendly notifications. Added comprehensive loading spinners and skeleton screens for all data‑fetching operations, eliminating UI jank and improving perceived performance.
 
-5. Responsive Design Mastery
-Challenge: Ensuring the application provides a flawless experience on all devices, from large desktop screens to mobile phones.
-Solution: Tailwind CSS was extensively used to build a fully responsive layout. This project went beyond basic media queries, focusing on a mobile-first approach and fine-tuning the UI for various breakpoints. A deep understanding of flexbox, grid, and Tailwind's utility classes was gained to achieve a pixel-perfect, adaptive design.
+### 4. Caching Hooks & Performance Optimization
+**Challenge** – Reduce unnecessary API calls and boost rendering speed.  
+**Solution** – Gained a deep understanding of memoization and caching hooks like `useMemo`, `useCallback`, and `React.memo`. Strategically cached news data, user profiles, and component states to minimise re‑renders, resulting in a snappier and more responsive interface.
 
-6. Auto-Login with Token Persistence
-Challenge: Automatically logging in a returning user if a valid token exists in their cookies.
-Solution: Upon application load, a check is performed to see if an authentication token exists in the cookies. If a valid token is found, an API request is made to re-authenticate the user and populate the application's state, providing a seamless "remember me" experience without requiring the user to log in again.
+### 5. Responsive Design Mastery
+**Challenge** – Deliver a flawless experience on every screen size, from large desktops to compact phones.  
+**Solution** – Adopted a **mobile‑first** approach using **Tailwind CSS**. Went beyond basic media queries, leveraging flexbox, grid, and Tailwind’s utility classes to achieve pixel‑perfect, adaptive layouts. This improved my understanding of responsive design principles significantly.
 
-7. Dark Mode Implementation
-Challenge: Implementing a dark mode feature without relying on any external libraries.
-Solution: The dark mode was initially built from scratch using CSS custom properties and React context to manage the theme state. While this was a great learning experience in state management and CSS theming, it was later discovered that the next-themes library could have simplified this process significantly. This highlighted the importance of researching existing solutions before building custom ones.
+### 6. Auto‑Login with Token Persistence
+**Challenge** – Automatically log in returning users if a valid token exists in cookies.  
+**Solution** – On app initialisation, check for an authentication token in cookies. If present and valid, dispatch an API request to re‑authenticate the user and populate the Redux state. This provides a seamless “remember me” experience without requiring manual login.
 
-🛠️ Technologies Used
-JavaScript (ES6+): Core programming language.
+### 7. Dark Mode Implementation
+**Challenge** – Build a dark mode toggle without third‑party libraries.  
+**Solution** – Initially implemented using CSS custom properties (variables) and React Context to manage the theme state. While this was an excellent learning exercise in theming and state management, I later discovered the `next-themes` library, which would have simplified the process. This taught me the value of researching existing solutions before reinventing the wheel.
 
-React: For building the user interface.
+---
 
-Next.js: The React framework for server-side rendering (SSR), static site generation (SSG), and routing.
+## 🛠️ Technologies Used
 
-Tailwind CSS: For utility-first, responsive styling.
+| Technology | Purpose |
+|------------|---------|
+| **JavaScript (ES6+)** | Core programming language |
+| **React 18** | UI library for building component‑based interfaces |
+| **Next.js 14** | React framework with SSR, SSG, and file‑based routing |
+| **Tailwind CSS 3** | Utility‑first CSS framework for rapid, responsive styling |
+| **React Hook Form** | Efficient form handling and validation |
+| **React Hot Toast** | Beautiful, customisable toast notifications |
+| **Google reCAPTCHA** | Security against spam and bots |
+| **Lucide React** | Clean, open‑source icon set |
+| **Redux Toolkit** | Global state management with a predictable store |
+| **TypeScript** *(optional)* | Type safety and better developer experience |
 
-React Hook Form: For efficient and performant form handling and validation.
-
-React Hot Toast: For beautiful, customizable toast notifications.
-
-Google reCAPTCHA: For security and spam protection.
-
-Lucide React: For a clean, open-source icon set.
-
-Redux Toolkit: For global state management, providing a predictable state container.
+---
 
 🙏 Acknowledgments
-This project was a significant milestone in my journey as FullStack developer. It encompassed a wide range of challenges, from security implementation with reCAPTCHA and cookies to performance optimization with caching hooks and mastering responsive design. The experience of building this platform from the ground up has solidified my understanding of modern React and Next.js development.
+This project was a significant milestone in my journey as a Full‑Stack Developer. It encompassed a wide range of challenges – from security (reCAPTCHA, cookies) to performance (caching hooks) and responsive design. Building MineNews from the ground up has solidified my understanding of modern React, Next.js, and state management.
 
-Special thanks to the open-source community for the incredible tools and libraries that made this project possible.
+I am grateful to the open‑source community for the incredible tools and libraries that made this project possible.
 
-Built with ❤️ by Hossein Khani
-
+<p align="center"> Built with ❤️ by <strong>Hossein Khani</strong> <br /> <a href="https://hosseinkhani20.ir/">🌐 Portfolio</a> · <a href="https://github.com/your-username">🐙 GitHub</a> · <a href="https://linkedin.com/in/your-profile">💼 LinkedIn</a> </p> ```
+   ```bash
+   git clone https://github.com/your-username/minenews.git
+   cd minenews
