@@ -17,8 +17,8 @@
 <br />
 
 <p align="center">
-  <a href="./README.md"><img src="https://img.shields.io/badge/🇬🇧 English-README-blue" alt="English"></a>
-  <a href="./README-fa.md"><img src="https://img.shields.io/badge/🇮🇷 فارسی-README-green" alt="Persian"></a>
+  <a href="./README.md"><img src="https://img.shields.io/badge/English-README-blue" alt="English"></a>
+  <a href="./README-fa.md"><img src="https://img.shields.io/badge/فارسی-README-green" alt="Persian"></a>
 </p>
 ---
 
