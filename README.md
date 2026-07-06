@@ -12,24 +12,10 @@
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="MIT License" />
 </p>
 
-<h1 align="center">⛏️ MineNews – A Modern Minecraft News Platform</h1>
 
-<p align="center">
-  <strong>Real-time news, guides, and community hub for Minecraft enthusiasts</strong>
-  <br />
-  <a href="https://hosseinkhani20.ir/">🔗 Live Demo</a>
-  ·
-  <a href="#-getting-started">🚀 Getting Started</a>
-  ·
-  <a href="#-key-technical-challenges--solutions">⚙️ Challenges</a>
-  ·
-  <a href="#-technologies-used">🛠️ Tech Stack</a>
-</p>
 
 <br />
 
-![Project Screenshot](https://hosseinkhani20.ir/your-screenshot-path.png)  
-*(Replace with an actual screenshot of your project)*
 
 ---
 
@@ -130,7 +116,4 @@ This project was a significant milestone in my journey as a Full‑Stack Develop
 
 I am grateful to the open‑source community for the incredible tools and libraries that made this project possible.
 
-<p align="center"> Built with ❤️ by <strong>Hossein Khani</strong> <br /> <a href="https://hosseinkhani20.ir/">🌐 Portfolio</a> · <a href="https://github.com/your-username">🐙 GitHub</a> · <a href="https://linkedin.com/in/your-profile">💼 LinkedIn</a> </p> ```
-   ```bash
-   git clone https://github.com/your-username/minenews.git
-   cd minenews
+<p align="center"> Built with ❤️ by <strong>Hossein Khani</strong> <br /> <a href="https://hosseinkhani20.ir/">🌐 Portfolio</a> · <a href="https://github.com/HosseinKhani2005">🐙 GitHub</a> · <a href="https://linkedin.com/in/hossein-khani-5845a5387/">💼 LinkedIn</a> </p>
