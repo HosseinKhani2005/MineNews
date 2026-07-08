@@ -13,7 +13,8 @@ import {
   ChevronRight,
   Calendar,
   Users,
-  Star
+  Star,
+  ChevronLeft
 } from "lucide-react";
 
 const categories = [
@@ -137,7 +138,7 @@ export default function CategoriesContent() {
                 className="inline-flex items-center gap-1 text-green-600 dark:text-green-400 hover:underline text-sm font-medium mt-4"
               >
                 مشاهده اخبار
-                <ChevronRight className="w-4 h-4" />
+                <ChevronLeft className="w-4 h-4" />
               </Link>
             </motion.div>
           ))}

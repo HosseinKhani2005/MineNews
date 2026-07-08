@@ -241,7 +241,6 @@ export default function RegisterPage() {
             disabled={loading}
             className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            <UserPlus className="w-5 h-5" />
             {loading ? "⏳ در حال ثبت‌نام..." : "ثبت‌نام"}
           </motion.button>
         </form>

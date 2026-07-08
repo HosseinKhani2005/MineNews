@@ -32,6 +32,7 @@ import {
   Percent,
   Gift,
   Clock,
+  ArrowLeft,
 } from "lucide-react";
 
 // ============== داده‌های محصولات بر اساس دسته‌بندی ==============
@@ -394,7 +395,7 @@ export default function ShopPage() {
                           className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-semibold transition shadow-md shadow-emerald-600/20"
                         >
                           خرید
-                          <ArrowRight className="w-3.5 h-3.5" />
+                          <ArrowLeft className="w-3.5 h-3.5" />
                         </Link>
                       </div>
                     </div>

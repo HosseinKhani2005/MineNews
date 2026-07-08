@@ -386,7 +386,7 @@ export default function SupportPage() {
                     key={msg.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`flex ${msg.isSupport ? 'justify-start' : 'justify-end'}`}
+                    className={`flex ${msg.isSupport ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
                       className={`
