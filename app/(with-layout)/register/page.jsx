@@ -87,9 +87,8 @@ export default function RegisterPage() {
       >
         {/* هدر */}
         <div className="text-center mb-8">
-          <div className="text-4xl mb-2">⛏️</div>
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-            به جمع ما بپیوند!
+            به جمع ما بپیوند
           </h1>
           <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
             ثبت‌نام کن و از اخبار ماینکرفت باخبر شو

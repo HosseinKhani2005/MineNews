@@ -72,9 +72,8 @@ export default function LoginPage() {
       >
         {/* هدر */}
         <div className="text-center mb-8">
-          <div className="text-4xl mb-2">⛏️</div>
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-            خوش آمدی!
+            خوش آمدی
           </h1>
           <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
             برای ورود، ایمیل و رمز عبور را وارد کن
@@ -162,7 +161,7 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {loading ? "⏳ در حال ورود..." : "ورود"}
+            {loading ? "در حال ورود..." : "ورود"}
           </motion.button>
         </form>
 
